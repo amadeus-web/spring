@@ -68,5 +68,6 @@ function getSiteInfo($relativePath, $urlKey = false) {
 function getUrlFrom($relativePath, $urlKey = false) {
 	if (!$urlKey) $urlKey = _getUrlKeySansPreview();
 	$result = getSiteInfo($relativePath);
+	if (!$result) return '#missing-' . $relativePath;
 	return $result[$urlKey];
 }

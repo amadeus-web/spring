@@ -148,8 +148,8 @@ class socialBuilder {
 	function addGithubGroup() {
 		return $this
 			->addHR()
-			->addGithub('amadeus-web-world/', 'AW World')
-			->addGithub('amadeus-web-world/spring', 'AW Spring')
+			->addGithub('joyfulearth/', 'JoyfulEarth')
+			->addGithub('joyfulearth/spring', 'AW Spring')
 			->addGithub(variable('github-repo'), 'This Site', !variable('github-repo'))
 			;
 	}

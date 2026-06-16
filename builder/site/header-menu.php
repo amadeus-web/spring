@@ -105,6 +105,7 @@ function renderHeaderMenu($slug, $node = '', $name = false) {
 	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . '">' . $name . '</a>';
 
 	if ($node) $slug .= '/' . $node;
+	if (!disk_is_dir($slug .= '/' . $node)) $files = ['FOL MISSING'];
 	menu('/' . $slug . '/', [
 		'a-class' => $anchorClass,
 		'ul-class' => $ulClass . ($node ? ' of-node node-' . $node : ''),
