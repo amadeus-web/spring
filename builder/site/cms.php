@@ -190,7 +190,6 @@ variable('specialHumanizeReplaces', [
 	'aop' => 'AO Projects',
 	'whois' => 'Who Is',
 	'whoami' => 'Who Am I',
-	'wiseowls' => 'WiseOwls',
 	'2025 02' => 'Feb 2025',
 	'2025 04' => 'Apr 2025',
 	'2025 05' => 'May 2025',
@@ -204,6 +203,12 @@ variable('specialHumanizeReplaces', [
 	'2026 01' => 'Jan 2026',
 	'2026 02' => 'Feb 2026',
 	'2026 03' => 'Mar 2026',
+	'2026 04' => 'Apr 2026',
+	'2026 05' => 'May 2026',
+	'2026 06' => 'Jun 2026',
+	'2026 07' => 'Jul 2026',
+	'2026 08' => 'Aug 2026',
+	'2026 09' => 'Sep 2026',
 ]);
 
 function site_humanize($txt, $field = 'title', $how = false) {

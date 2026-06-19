@@ -56,7 +56,7 @@ function setup_cdn($fol = CDNAUTO, $local = true, $live = true) {
 		if ($local === false) return;
 		$cdn = 'http://localhostcdn/';
 		$cdn .= $fol;
-		define('ROOTCDNPATH', realpath(ALLSITESROOT . '../../cdn') . '/');
+		define('ROOTCDNPATH', realpath(ALLSITESROOT . '../cdn') . '/');
 	} else {
 		if ($live === false) return;
 		if ($live === true)

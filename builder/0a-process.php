@@ -3,6 +3,7 @@ DEFINE('VARErrorStart', '<div class="container mt-4 p-5 alert alert-warning" sty
 
 DEFINE('BOOLYes', true);
 DEFINE('BOOLNo', false);
+DEFINE('BOOLNoString', 'no');
 	DEFINE('PleaseDie', BOOLYes);
 	DEFINE('IncludeTrace', BOOLYes);
 	DEFINE('NeverExecute', BOOLNo);

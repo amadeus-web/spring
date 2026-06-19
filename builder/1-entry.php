@@ -210,11 +210,17 @@ function render() {
 	if (!$rootFile) {
 		//asumes logic below will never go to else part
 		$contentExt = disk_one_of_files_exist($contentFWE = $folder . nodeValue() . '.', CONTENTFILES);
-		$fileWanted = $contentFWE . $contentExt;
+		if ($contentExt) {
+			$fileWanted = $contentFWE . $contentExt;
+		} else if (nodeIsSection() && !getPageParameterAt()) {
+			$sectionFWE = SITEPATH . '/' . nodeValue() . '/home.';
+			if ($sectionExt = disk_one_of_files_exist($sectionFWE, CONTENTFILES))
+				$fileWanted = $sectionFWE . $sectionExt;
+		}
 	}
 
 	if ($fileWanted) {
-		read_seo($fileWanted, true); //so rootFile supports seo
+		read_seo($fileWanted, true); //support seo
 	}
 
 	if (!$embed) {
@@ -292,6 +298,10 @@ function render() {
 	if (!$embed) {
 		if (function_exists('pollenAt')) pollenAt('embed');
 		if (function_exists('after_file')) after_file();
+		if (isset($sectionExt)) {
+			variable('file', $sectionFWE . $sectionExt);
+			pageMenu($sectionFWE . $sectionExt);
+		}
 		renderThemeFile('footer', $theme); //theme.php is now responsible for calling stats before styles+scipts as the table feature requires its usage and it will be before </body>
 	}
 
@@ -327,7 +337,7 @@ function _credits($pre = '', $return = false) {
 
 	$img = '<img src="' . getSiteUrl(SITESPRING) . 'amadeusweb-work-logo.png" height="40" alt="AW Spring" class="m-2 align-middle rounded-2">';
 
-	$skipBranding = in_array(variable(VARDAWNMenu), BOOLLISTFALSE);
+	$skipBranding = variable(VARDAWNMenu) === BOOLNoString;
 
 	$result = $pre . 'Powered by' . getLink($img, getSpecialUrl('root') . $utm, 'd-inline-block', true) . NEWLINE;
 	if (!$skipBranding)

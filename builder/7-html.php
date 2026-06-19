@@ -543,7 +543,9 @@ class bootstrapAndUX extends builderBase {
 		'TODO' => 'btn btn-warning bi bi-journal-check" target="_blank',
 		'PHONE' => 'btn btn-has-icon btn-info bi bi-telephone ls-2" style="color: #fff;' . NOFOLLOWSUFFIX,
 		'WHATSAPP' => 'btn btn-has-icon btn-success bi bi-whatsapp ls-2', //nofollow taken care of in prepareLinks
+			'OUTLINEWHATSAPP' => 'btn btn-has-icon btn-outline-success bi bi-whatsapp ls-2',
 		'EMAIL' => 'btn btn-has-icon btn-danger bi bi-mailbox ls-2' . NOFOLLOWSUFFIX,
+			'OUTLINEEMAIL' => 'btn btn-has-icon btn-outline-danger bi bi-mailbox ls-2' . NOFOLLOWSUFFIX,
 		'MAP' => 'btn btn-has-icon btn-warning bi bi-pin-map ls-2' . NOFOLLOWSUFFIX,
 	];
 
