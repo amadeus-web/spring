@@ -224,7 +224,7 @@ function add_table($id, $dataFile, $columnList, $template, $values = []) {
 		} else if($wantsBSRow && $lineTemplateForBS) {
 			if (isset($item[0]) && $item[0] == '') continue;
 			if ($wantsBSEnricher)
-				$row = _table_row_values($item, $columns, $tsv, $values, $template);
+				$row = _table_row_values($item, $columns, $tsv, $values, $lineTemplateForBS);
 			else
 				$row = $sheet->asObject($item);
 		} else {

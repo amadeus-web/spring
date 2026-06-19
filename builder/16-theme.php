@@ -298,7 +298,7 @@ function setMenuSettings($after = false) {
 }
 
 function siteWidgets() {
-	//Do Better - if (variable('node-alias')) return '';
+	if (variable('no-site-widgets')) return '';
 
 	$colsInUse = 0;
 

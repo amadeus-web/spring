@@ -1,12 +1,14 @@
 <?php
-function read_seo($file, $inContent = false) {
-	if (variable('seo-handled')) return;
-
+function read_seo(string $file, $inContent = false) {
 	$fileGiven = $file != variable('file');
+
 	if (!$file) return;
 
-	$meta = false;
-	if (endsWith($file, '.md') || endsWith($file, '.txt')) {
+	$meta = variable('meta_' . $file);
+
+	if ($meta) {
+		//noop
+	}else if (endsWith($file, '.md') || endsWith($file, '.txt')) {
 		$raw = disk_file_get_contents($file);
 		$meta = parseMeta($raw);
 	} else if (endsWith($file, '.tsv')) {
@@ -15,8 +17,14 @@ function read_seo($file, $inContent = false) {
 		$raw = $file;
 	}
 
+	$hasExtension = contains($file, '.');
+	if ($hasExtension && !disk_file_exists($file))
+		return;
+
+	if (!$hasExtension && !disk_one_of_files_exist($file, CONTENTFILES))
+		return;
+
 	if (!$meta) {
-		//TODO: HI: code this
 		$altFile = relatedMetaFile($file);
 		if (!disk_file_exists($altFile)) return;
 		$raw = disk_file_get_contents($altFile);
@@ -72,9 +80,7 @@ function read_seo($file, $inContent = false) {
 			variable('og:description', $description);
 			if ($title) variable('custom-title', $title);
 			variable('keywords', $keywords);
-			variable('seo-handled', true);
 			variable('meta_' . $file, $meta);
-			//TODO: do we need to consume singlefilecontent in render? I think not
 		}
 	}
 }
@@ -176,24 +182,6 @@ function getFolderMeta($folder, $fol, $folName = false, $index = '') {
 		'size' => isset($file) ? size_r(filesize($file)) : '-',
 		'index' => $index,
 	];
-}
-
-function seo_info() {
-	$item = variable('current_page');
-	if (!$item) return;
-
-	echo '<section id="seo-info" class="container" style="padding-top: 30px;">' . NEWLINE;
-	echo featureHeading('seo');
-
-	$fmt = '<p><h4>%s</h4>%s</p>' . NEWLINE;
-
-	$cols = ['about', 'description', 'keywords'];
-	foreach ($cols as $col) {
-		$field = isset($item[$col]) ? $item[$col] : false;
-		if ($field) echo sprintf($fmt, ($col != 'about' ? 'SEO ' : '') . humanize($col), $field);
-	}
-
-	echo NEWLINE . '</section>' . NEWLINE;
 }
 
 function seo_tags($return = false) {

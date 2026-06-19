@@ -98,6 +98,13 @@ class socialBuilder {
 		return $this->addExternal($type, self::url_instagram . $relUrl, $name);
 	}
 
+	const facebook = 'facebook';
+	private const url_facebook = 'https://www.facebook.com/';
+	function addFacebook($relUrl, $name, $type = self::facebook, $skip = false) {
+		if ($skip) return $this;
+		return $this->addExternal($type, self::url_facebook . $relUrl, $name);
+	}
+
 	const linkedin = 'linkedin';
 	private const url_linkedin = 'https://www.linkedin.com/';
 	function addLinkedIn($relUrl, $name, $type = self::linkedin, $skip = false) {

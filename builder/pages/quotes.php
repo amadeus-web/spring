@@ -1,5 +1,6 @@
 <?php
-printNodeHeading();
+if (!variable('skip_node_heading'))
+	printNodeHeading();
 
 $all = explode('---', disk_file_get_contents(SITEPATH . '/data/quotes.md'));
 
@@ -10,9 +11,8 @@ if ($show = getQueryParameter('show')) {
 
 $items = getShuffledItems($all, variableOr('quotes-display-count',  2));
 
-foreach ($items as $item) {
-	$ix = array_search($item, $all) + 1;
-	_renderItem($item, $ix, $show);
+foreach ($items as $ix => $item) {
+	_renderItem($item, $ix + 1, $show);
 }
 
 function _renderItem($item, $ix, $show) {

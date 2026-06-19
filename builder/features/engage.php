@@ -20,7 +20,7 @@ function renderEngage($name, $raw, $echo = true, $meta = [], $settings = []) {
 	}
 
 	$systemIncluded = contains($addressee, VARSystemEmail) || contains($additionalCC, VARSystemEmail);
-	$defaultCC = $systemIncluded ? '' : ';' . VARSystemEmail;
+	$defaultCC = $systemIncluded ? '' : VARSystemEmail;
 
 	$class = valueIfSet($settings, VARNoContentBoxes) ? features::engage : _getCBClassIfWanted(features::engage);
 	$class = '" class="' . $class . '" ';
