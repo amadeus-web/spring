@@ -35,9 +35,9 @@ function renderEngage($name, $raw, $echo = true, $meta = [], $settings = []) {
 
 	$replaces = [];
 	if (disk_file_exists($note = (AMADEUSDATA . 'engage-note.md'))) {
-		$replaces[VAREngageNote] = '<div class="engage-note-hint d-none">' . returnLine($note) . '</div>';
+		$replaces[VAREngageNote] = tryEnrichEngageNote('<div class="engage-note-hint d-none">' . returnLine($note) . '</div>', VAREngageNote);
 		if (disk_file_exists($note2 = (AMADEUSDATA . 'engage-note-above.md')))
-			$replaces[VAREngageNoteAbove] = returnLine($note2);
+			$replaces[VAREngageNoteAbove] = tryEnrichEngageNote(returnLine($note2), VAREngageNoteAbove);
 		$replaces[VAREmail] = $email;
 		$replaces[VARWhatsapp] = getHtmlVariable(VARWhatsapp) . getHtmlVariable('enquiry');
 	}
@@ -49,6 +49,10 @@ function renderEngage($name, $raw, $echo = true, $meta = [], $settings = []) {
 	$result .= '</div>' . NEWLINE;
 	if (!$echo) return $result;
 	echo $result;
+}
+
+function tryEnrichEngageNote($content, $where) {
+	return function_exists('enrichEngageNote') ? enrichEngageNote($content, $where) : $content;
 }
 
 function runEngageFromSheet($pageName, $sheetName) {

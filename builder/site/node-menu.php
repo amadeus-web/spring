@@ -11,8 +11,11 @@ function renderNodeMenu() {
 
 	$hasFiles = variable(VARNodesHaveFiles); //yay now we support both sections with files & folders in same site
 	if (($order = NODEPATH . '/_menu-items.txt') && disk_file_exists($order))
-		$files = textToList(disk_file_get_contents($order)); else
-	$files = _skipNodeFiles(disk_scandir(NODEPATH));
+		$files = textToList(disk_file_get_contents($order));
+	else if ($order = str_replace('.txt', '.tsv', $order) && disk_file_exists($order))
+		$files = tsvSlugs($order);
+	else
+		$files = _skipNodeFiles(disk_scandir(NODEPATH));
 
 	_menuULStart(NOPAGESTART);
 

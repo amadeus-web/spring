@@ -49,7 +49,8 @@ function _skipExcludedFiles($files, $excludeNames = 'home', $excludeExtensions =
 	$checkExtensions = count($excludeExtensions) > 0 && $excludeExtensions[0] != '';
 
 	foreach($files as $item) {
-		if ($item[0] == '.' OR $item[0] == '_' OR endsWith($item, '=='))
+		$nameSansExtension = stripExtension($item);
+		if ($item[0] == '.' OR $item[0] == '_' OR endsWith($nameSansExtension, '=='))
 			continue;
 
 		if ($onlyFolders && contains($item, '.'))
@@ -58,14 +59,14 @@ function _skipExcludedFiles($files, $excludeNames = 'home', $excludeExtensions =
 		if ($onlyFiles && !contains($item, '.'))
 			continue;
 
-		if ($checkNames && in_array(stripExtension($item), $excludeNames))
+		if ($checkNames && in_array($nameSansExtension, $excludeNames))
 			continue;
 
 		if ($checkExtensions && in_array(getExtension($item), $excludeExtensions))
 			continue;
 
 		if ($stripExtension)
-			$item = stripExtension($item);
+			$item = $nameSansExtension;
 
 		$op[] = $item;
 	}
@@ -346,6 +347,14 @@ function menu($folderRelative = false, $settings = []) {
 	$return = isset($settings['return']) ? $settings['return'] : false;
 	if ($return) return $result;
 	echo $result;
+}
+
+function tsvSlugs($sheet) {
+	$items = getSheet($sheet, false);
+	$result = [];
+	foreach ($sheet->rows as $item)
+		$result[] = $sheet->getValue($item, 'slug');
+	return $result;
 }
 
 function flatMenu($items, $name) {

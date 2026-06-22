@@ -368,8 +368,8 @@ class htmlUX {
 		self::divLargeListSep, self::divLargeListLA, self::divLargeListLR, self::divLargeList, self::divLargeList,
 		//2 - divs (4)
 		self::divContainer, self::divCenter500, self::divCenter, self::divRight,
-		//3 - divs (5)
-		self::divClear, self::divBox, self::divClose, self::divSFClose, self::divSF,
+		//3 - divs (6)
+		self::divClear, self::divBox, self::divStart, self::divClose, self::divSFClose, self::divSF,
 		//4 - bs grid (6)
 		self::gridRow, self::grid3, self::grid4, self::grid5, self::grid6, self::grid7, self::grid8, self::grid9,
 		//5 - articles / grid (4)
@@ -430,6 +430,7 @@ class htmlUX {
 	//3 - divs (5)
 	const divClear = ['DIV-CLEAR', '<div class="clearfix"></div>'];
 	const divBox = ['DIV-WITHBOX', '<div class="content-box">'];
+	const divStart = ['DIV-START', '<div>'];
 	const divClose = ['DIV-CLOSE', TAGDIVEND];
 	const divSFClose = ['DIV-SPACEFIX-CLOSE', TAGDIVEND];
 	const divSF = ['DIV-SPACEFIX', '<div>'];

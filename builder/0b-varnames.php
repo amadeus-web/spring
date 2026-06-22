@@ -28,6 +28,7 @@ DEFINE('VARQueryHeadings', 'headings');
 //4-array.php
 DEFINE('NOWRAPREPLACE', VAREMPTY);
 DEFINE('WRAPREPLACE', '%');
+DEFINE('HASHREPLACE', '##');
 
 DEFINE('TYPENOCHANGE', 'no-change');
 DEFINE('TYPEBOOLEAN', 'bool');
@@ -80,6 +81,7 @@ DEFINE('VARNode', 'node');
 
 DEFINE('VARNodeSiteName', 'nodeSiteName');
 DEFINE('VARDontOverwriteLogo', 'dont-overwrite-logo');
+DEFINE('VARUseNodeIcons', 'use-node-icons');
 DEFINE('VARPrefixSafeName', 'prefix-safeName');
 DEFINE('VARNodeSafeName', 'nodeSafeName');
 	//TODO: deprecated. remove once testing process is in places

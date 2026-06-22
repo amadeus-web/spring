@@ -113,6 +113,7 @@ class nodeSettings extends builderBase {
 	const one_page = '';
 
 	const two_page = 'level2';
+	const level3 = 'level3';
 
 	static function factory($where, $const = self::one_page, $settings = []) {
 		if ($where == SITEPATH) {
@@ -121,6 +122,7 @@ class nodeSettings extends builderBase {
 		}
 
 		if (contains($const, 'level2')) $level = 2;
+		else if (contains($const, 'level3')) $level = 3;
 		else $level = 1;
 		autoSetNode($level, $where, $settings);
 	}

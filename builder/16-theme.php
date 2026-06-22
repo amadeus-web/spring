@@ -208,11 +208,9 @@ function site_and_node_icons($siteIcon = null, $nodeIcon = null, $nodeSuffix = '
 	if (!$nodeIcon) $nodeIcon = getLogoOrIcon('icon', 'node' . $nodeSuffix); //todo - remove!
 
 	$breadcrumbs = [_iconLink($siteIcon)];
-	$nodeLink = '';
 	foreach (nodeVarsInUse() as $index) {
 		$vars = variable('NodeVarsAt' . $index);
-		$breadcrumbs[] = _iconLink(getLogoOrIcon('icon', $vars), $nodeLink . $vars['nodeSlug']);
-		if (!nodeIs($vars['nodeSlug'])) $nodeLink = ($nodeLink ? $nodeLink . '/' : '') . $vars['nodeSlug'] . '/';
+		$breadcrumbs[] = _iconLink(getLogoOrIcon('icon', $vars), $vars['nodeSlug']);
 	}
 
 	return implode(BREADCRUMBSEPARATOR . NEWLINE, $breadcrumbs);
@@ -227,7 +225,7 @@ function _iconImage($src) {
 }
 
 function _page_menu($siteIcon, $nodeIcon) {
-	if (!variable(VARSubmenuAtNode)) return '<!--no-page-menu-->';
+	if (!variable(VARSubmenuAtNode) || getQueryparameter('content')) return '<!--no-page-menu-->';
 
 	$menuFile = getThemeFile('snippets/page-menu.html');
 	$menuContent = disk_file_get_contents($menuFile);

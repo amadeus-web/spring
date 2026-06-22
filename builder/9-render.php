@@ -153,11 +153,12 @@ function _renderImplementation($fileOrRaw, $settings) {
 		'spring-assets' => variable(assetKey(COREASSETS)),
 	];
 
-	$raw = replaceItems($raw, $replacesParams, '%');
-	$raw = replaceItems($raw, $plainReplaces, '');
-	$raw = replaceItems($raw, $builtinReplaces, '##');
+	$raw = replaceItems($raw, $replacesParams, WRAPREPLACE);
+	$raw = replaceItems($raw, $plainReplaces, NOWRAPREPLACE);
+	$raw = replaceItems($raw, $builtinReplaces, HASHREPLACE);
 
-	if ($svars = variable('siteReplaces')) $raw = replaceItems($raw, $svars, '%', BOOLYes);
+	if ($svars = variable('siteReplaces')) $raw = replaceItems($raw, $svars, WRAPREPLACE, BOOLYes);
+	if ($svars = variable('siteRawReplaces')) $raw = replaceItems($raw, $svars, NOWRAPREPLACE, BOOLYes);
 
 	$autop = $raw != '' && contains($raw, WANTSAUTOPARA);
 	$md = $raw != '' && ($raw[0] == '#' || startsWith($raw, WANTSMARKDOWN));
