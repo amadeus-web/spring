@@ -40,6 +40,7 @@ DEFINE('BOOLLISTTRUE', [true, 'true', 'yes', '1']);
 //7-html.php
 DEFINE('VARNoContentBoxes', 'no-content-boxes');
 DEFINE('VARCustom', 'custom');
+DEFINE('VARWildcardUrl', 'wildcard-url');
 
 //9-render.php
 DEFINE('VAREcho', 'echo');

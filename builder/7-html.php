@@ -156,7 +156,7 @@ function replaceHtml($html) {
 
 			'%node-assets%' => _resolveFile('', STARTATNODE),
 			'%section-assets%' => _resolveFile('', STARTATSECTION),
-			'%site-base%' => variable('assets-url'),
+			'%site-base%' => variableOr(VARWildcardUrl, variable('assets-url')),
 			'%site-assets%' => _resolveFile('', STARTATSITE),
 			'%core-assets%' => _resolveFile('', STARTATCORE),
 			'##theme##' => getThemeBaseUrl(),

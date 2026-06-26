@@ -7,8 +7,10 @@ function _makeSlashesConsistent2($path) {
 	return str_replace($fromTo[0], $fromTo[1], $path);
 }
 
+DEFINE('VARWildcardUrl', 'wildcard-url');
+
 DEFINE('ALLREGISTRY', [
-	'public_html' => ['local' => 'http://localhost/all/%s/', 'live' => 'https://%s.joyfulearth.org/'],
+	'public_html' => ['local' => 'http://localhost/all/%s/', 'live' => 'https://%s.joyfulearth.org/', 'base' => 'https://all.joyfulearth.org/'],
 ]);
 
 function allInfo($absFol) : array | bool {
@@ -25,5 +27,6 @@ function enhanceAllSite(&$vars, $name = false, $in = false) {
 	$all = ALLREGISTRY[$in];
 	$vars['local-url'] = sprintf($all['local'], $name);
 	$vars['live-url'] = sprintf($all['live'], $name);
+	$vars[VARWildcardUrl] = $all['base'] . $name . '/';
 	$vars['safeName'] = $name;
 }

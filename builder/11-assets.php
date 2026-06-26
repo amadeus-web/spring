@@ -137,7 +137,10 @@ function assetUrl($file, $location) {
 		showDebugging('ASSETMANAGER: direct urls not supported in beta', $file, true, true);
 
 	$meta = assetMeta($location);
-	return $meta['location'] . $file . (contains($file, '.') ? $meta['version'] : '');
+	$match = $meta['location'];
+	if ($location == SITEASSETS && hasVariable(VARWildcardUrl))
+		$match = variable(VARWildcardUrl);
+	return $match . $file . (contains($file, '.') ? $meta['version'] : '');
 }
 
 variables(['styles' => [], 'scripts' => []]);

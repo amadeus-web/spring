@@ -27,6 +27,9 @@ variables([
 	'showIn' => isset($siteVars['showIn']) ? $siteVars['showIn'] : false,
 ]);
 
+if (isset($siteVars[VARWildcardUrl]))
+	variable(VARWildcardUrl, $siteVars[VARWildcardUrl]);
+
 if (contains($url = $siteVars[variable(SITEURLKEY)], 'localhost'))
 	$url = replaceItems($url, ['localhost' => 'localhost' . variable('port')]);
 
