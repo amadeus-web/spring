@@ -100,6 +100,10 @@ DEFINE('VARSubthemeBusiness', 'business');
 DEFINE('VARSubthemeContentOnly', 'content-only');
 DEFINE('VARSubthemeGo', 'go');
 
+DEFINE('VARFooterVariation', 'footer-variation');
+DEFINE('FooterWidgetsBelow', 'widgets-below');
+DEFINE('FooterSocialOnly', 'social-only');
+
 //features/engage.php
 DEFINE('VAREngageNote', 'engage-note');
 DEFINE('VAREngageNoteAbove', 'engage-note-above');

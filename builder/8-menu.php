@@ -29,8 +29,8 @@ function _handleSlashes($file, $handle, $useMDash) {
 	return $useMDash ? join(' &mdash; ', $bits) : array_pop($bits);
 }
 
-function _skipNodeFiles($files, $excludeExtensions = 'pdf') {
-	return _skipExcludedFiles($files, variable('exclude-folders'), $excludeExtensions, true);
+function _skipNodeFiles($files, $excludeExtensions = 'pdf', array $excludeNames = ExcludedFolders) {
+	return _skipExcludedFiles($files, $excludeNames, $excludeExtensions, true);
 }
 
 define('ONLYFOLDERS', 'FOLDER'); //only folders without dots
@@ -192,7 +192,7 @@ function menu($folderRelative = false, $settings = []) {
 	}
 
 	$exclude = valueIfSet($settings, 'exclude-files', []);
-	$exclude = array_merge(variable('exclude-folders'), $exclude);
+	$exclude = array_merge(ExcludedFolders, $exclude);
 	$breaks = valueIfSetAndNotEmpty($settings, 'breaks', []); //NOTE: needed for immersive education node
 	$prefix = isset($settings['prefix']) ? $settings['prefix'] . ' ' : '';
 	$wrapInDiv = ($wrapInDivVO = valueIfSetAndNotEmpty($settings, 'wrapTextInADiv'));

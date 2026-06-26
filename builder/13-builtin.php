@@ -4,9 +4,9 @@ DEFINE('CONTENTFILEEXTENSIONS', explode(', ', CONTENTFILES));
 DEFINE('ENGAGEFILES', 'md, tsv');
 DEFINE('FILESWITHMETA', 'md, tsv, php');
 
-variables([
-	'exclude-folders' => ['assets', 'data', 'engage'],
-]);
+DEFINE('ExcludedFolders', $xc = ['assets', 'data']);
+$xc[] = 'home';
+DEFINE('ExcludedFoldersAndHome', $xc);
 
 function isContentFile($fileOrRaw) {
 	foreach (CONTENTFILEEXTENSIONS as $extn)

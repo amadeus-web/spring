@@ -56,7 +56,7 @@ function runAllMacros($html) {
 	if (contains($html, '[prompt]'))
 		$html = processPromptShortcode($html);
 
-	if (contains($html, '[content-box]'))
+	if (contains($html, 'content-box]'))
 		$html = processContentBoxShortcode($html);
 
 	return $html;

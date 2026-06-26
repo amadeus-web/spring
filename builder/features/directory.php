@@ -41,12 +41,15 @@ function _renderMenu($home, $folder, $where) {
 		if (!$wantsNoCB) contentBox('home');
 		renderAny($home);
 		if (!$wantsNoCB) contentBox('end');
+		if (variable('skip-directory-after-home')) {
+			return;
+		}
 	}
 
 	echo GOOGLEOFF;
 	contentBox('nodes', variable('directory_use_excerpts') ? '' : 'after-content mb-5');
 
-	if (!$breadcrumbs)
+	if (!$breadcrumbs && !variable('dir_skipBreadcrumbs'))
 		_sections($where);
 
 	variable('seo-handled', false);
