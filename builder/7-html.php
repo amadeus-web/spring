@@ -176,7 +176,6 @@ function replaceHtml($html) {
 			'%nodeFullUrl%' => pageUrl(variableOr('nodeSlug', '##no-nodeSlug')),
 			'%leafNodeAssets%' => variableOr(assetKey(LEAFNODEASSETS), ''),
 
-			'%admin-email%' => variableOr('systemEmail', variableOr('assistantEmail', '#error--no-email-configured')),
 			'%email%' => variableOr(VAREmail, ''),
 			'%email2%' => variableOr(VAREmail2, ''),
 			'%email3%' => variableOr(VAREmail3, ''),

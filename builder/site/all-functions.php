@@ -11,6 +11,7 @@ DEFINE('VARWildcardUrl', 'wildcard-url');
 
 DEFINE('ALLREGISTRY', [
 	'public_html' => ['local' => 'http://localhost/all/%s/', 'live' => 'https://%s.joyfulearth.org/', 'base' => 'https://all.joyfulearth.org/'],
+	'common-planet' => ['local' => 'http://localhost/networks/common-planet/all/%s/', 'live' => 'https://%s.common-planet.org/', 'base' => 'https://all.common-planet.org/'],
 ]);
 
 function allInfo($absFol) : array | bool {
@@ -28,5 +29,6 @@ function enhanceAllSite(&$vars, $name = false, $in = false) {
 	$vars['local-url'] = sprintf($all['local'], $name);
 	$vars['live-url'] = sprintf($all['live'], $name);
 	$vars[VARWildcardUrl] = $all['base'] . $name . '/';
-	$vars['safeName'] = $name;
+	if (!isset($vars['safeName']))
+		$vars['safeName'] = $name;
 }
