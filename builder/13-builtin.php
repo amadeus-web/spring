@@ -2,7 +2,7 @@
 DEFINE('CONTENTFILES', 'php, md, tsv, txt, html');
 DEFINE('CONTENTFILEEXTENSIONS', explode(', ', CONTENTFILES));
 DEFINE('ENGAGEFILES', 'md, tsv');
-DEFINE('FILESWITHMETA', 'md, tsv');
+DEFINE('FILESWITHMETA', 'md, tsv, php');
 
 variables([
 	'exclude-folders' => ['assets', 'data', 'engage'],

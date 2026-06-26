@@ -1,6 +1,9 @@
 |is-table
 ||cloneAt: spring/
 ||renderWith: repos.php
+||Description: AmadeusWeb Spring and it's Sections
+||Primary Keyword: AW Spring
+||Keywords: CMS, Web Builder
 #at	from
 	https://github.com/joyfulearth/spring.git
 sections/dawn	https://github.com/joyfulearth/dawn.git

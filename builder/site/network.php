@@ -6,7 +6,7 @@ DEFINE('NETWORKABBR', 'JE');
 setupNetwork();
 
 function network_menu() {
-	if (variable(VARDAWNMenu) == BOOLNoString) return;
+	if (variable(VARDAWNMenu) === BOOLNoString) return;
 
 	if (variable(VARNetwork) != BOOLNoString)
 		flatMenu(variable('networkSites'), variable(VARNetwork));

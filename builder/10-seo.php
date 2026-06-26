@@ -5,9 +5,11 @@ function read_seo(string $file, $inContent = false) {
 	if (!$file) return;
 
 	$meta = variable('meta_' . $file);
+	$processed = false;
 
 	if ($meta) {
 		//noop
+		$processed = true;
 	}else if (endsWith($file, '.md') || endsWith($file, '.txt')) {
 		$raw = disk_file_get_contents($file);
 		$meta = parseMeta($raw);
@@ -69,8 +71,10 @@ function read_seo(string $file, $inContent = false) {
 			}
 		}
 
-		$keywords = count($keywords) ? implode(', ', $keywords) : '';
-		if (!$about) $about = $description;
+		if (!$processed) {
+			$meta['keywords'] = $keywords = count($keywords) ? implode(', ', $keywords) : '';
+			if (!$about && !in_array($key, $aboutFields)) { $about = $description; $meta['about'] = $about; }
+		}
 
 		variable('meta_' . $file, $meta);
 		if ($fileGiven && !$inContent) return compact('about', 'title', 'description', 'excerpt', 'keywords', 'meta');
@@ -82,6 +86,8 @@ function read_seo(string $file, $inContent = false) {
 			variable('keywords', $keywords);
 			variable('meta_' . $file, $meta);
 		}
+
+		return $meta;
 	}
 }
 
@@ -170,7 +176,8 @@ function getFolderMeta($folder, $fol, $folName = false, $index = '') {
 			if (isset($vars['keywords']))
 				$tags = hasPageParameter('generate-index') ? $vars['keywords'] : csvToHashtags($vars['keywords']);
 
-			$inline = hasPageParameter('generate-index') ? '' : inlineMeta($vars['meta']);
+			if (isset($vars['meta']))
+				$inline = hasPageParameter('generate-index') ? '' : inlineMeta($vars['meta']);
 		}
 	}
 
