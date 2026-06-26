@@ -6,9 +6,9 @@ DEFINE('NETWORKABBR', 'JE');
 setupNetwork();
 
 function network_menu() {
-	if (variable(VARDAWNMenu) === 'no') return;
+	if (variable(VARDAWNMenu) == BOOLNoString) return;
 
-	if (!in_array(variable(VARNetwork), BOOLLISTFALSE))
+	if (variable(VARNetwork) != BOOLNoString)
 		flatMenu(variable('networkSites'), variable(VARNetwork));
 
 	$urlKey = _getUrlKeySansPreview();

@@ -366,8 +366,8 @@ class htmlUX {
 		///note the order is important and should match exactly
 		//1 - divs (5)
 		self::divLargeListSep, self::divLargeListLA, self::divLargeListLR, self::divLargeList, self::divLargeList,
-		//2 - divs (4)
-		self::divContainer, self::divCenter500, self::divCenter, self::divRight,
+		//2 - divs (5)
+		self::divContainer, self::divContainerBox, self::divCenter500, self::divCenter, self::divRight,
 		//3 - divs (6)
 		self::divClear, self::divBox, self::divStart, self::divClose, self::divSFClose, self::divSF,
 		//4 - bs grid (6)
@@ -422,8 +422,9 @@ class htmlUX {
 	'DIV-LARGELISTLOWERALPHA', '<div class="large-list lower-alpha item-separator">'];
 	const divLargeListLR = ['DIV-LARGELISTLOWERROMAN', '<div class="large-list lower-roman item-separator">'];
 	const divLargeList = ['DIV-LARGELIST', '<div class="large-list">'];
-	//2 - divs (4)
+	//2 - divs (5)
 	const divContainer = ['DIV-PLAINCONTAINER', '<div class="container">'];
+	const divContainerBox = ['DIV-CONTAINERBOX', '<div class="container content-box">'];
 	const divCenter500 = ['DIV-MAX-500-CENTER', '<div class="m-auto img-max-500">'];
 	const divCenter = ['DIV-CENTER', '<div class="text-center">'];
 	const divRight = ['DIV-RIGHT', '<div class="float-right">'];
@@ -454,7 +455,7 @@ class htmlUX {
 
 	const artHAuto3 = ['ARTICLE-3COL-HAUTO-BOX', '<article class="col-lg-4 col-md-6 col-xs-12 mb-4"><div class="content-box minh-100">'];
 	const artHAuto4 = ['ARTICLE-HAUTO-BOX', '<article class="col-lg-3 col-md-6 col-xs-12 mb-4"><div class="content-box minh-100">'];
-	const artHAuto6 = ['ARTICLE-50-HAUTO-BOX', '<article class="portfolio-item col-6 mb-4"><div class="grid-inner content-box minh-100">'];
+	const artHAuto6 = ['ARTICLE-50-HAUTO-BOX', '<article class="portfolio-item col-md-6 col-sm-12 mb-4"><div class="grid-inner content-box minh-100">'];
 	const artHAuto12 = ['ARTICLE-100-HAUTO-BOX', '<article class="portfolio-item col-12 mb-4"><div class="grid-inner content-box minh-100">'];
 
 	const art3 = ['ARTICLE-3COL-BOX', '<article class="portfolio-item col-lg-4 col-md-6 col-xs-12 mb-4"><div class="grid-inner content-box">'];

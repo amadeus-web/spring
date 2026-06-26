@@ -35,7 +35,9 @@ function humanize($txt, $how = false) {
 	$words = ucwords(replaceItems($txt, ['--' => ' &mdash; ', '-' => ' ', '_' => '']));
 	if ($how !== 'no-site' && function_exists('site_humanize')) $words = site_humanize($words, 'title', $how);
 	if (contains($words, ' A ')) $words = replaceItems($words, [' A ' => ' a ', ' &mdash; a' => ' &mdash; A']);
+	if (contains($words, ' An ')) $words = str_replace(' An ', ' an ', $words);
 	if (contains($words, ' And ')) $words = str_replace(' And ', ' and ', $words);
+	if (contains($words, ' As ')) $words = str_replace(' As ', ' as ', $words);
 	if (contains($words, ' Of ')) $words = str_replace(' Of ', ' of ', $words);
 	if (contains($words, ' To ')) $words = str_replace(' To ', ' to ', $words);
 	if (contains($words, ' Version ')) $words = str_replace(' Version ', ' version ', $words);
