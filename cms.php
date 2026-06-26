@@ -5,5 +5,6 @@ variables([
 ]);
 
 function site_before_render() {
-	autosetPageMenu([VARLinkToNodeHome => true, DontOverwriteLogo => false]);
+	if (!sectionIs('network'))
+		autosetPageMenu([VARLinkToNodeHome => true, DontOverwriteLogo => false]);
 }

@@ -3,7 +3,7 @@ if (variable('skip-directory')) return;
 $where = variableOr('directory_of', variable('section'));
 
 $folder = sectionBaseOrSitePath() . '/' . $where . '/';
-if (disk_file_exists($php = $folder . 'home.php')) {
+if (!variable('dir_skipHome') && disk_file_exists($php = $folder . 'home.php')) {
 	disk_include_once($php);
 	return;
 }
@@ -88,7 +88,12 @@ function _renderMenu($home, $folder, $where) {
 		$sectionItems[] = $item;
 	}
 
-	$relativeUrl = (nodeIsNot(variable('section')) ? nodeValue() . '/' : '') . ($breadcrumbs ? implode('/', $breadcrumbs) . '/' : '');
+	//TODO: HI: fix ideas hacks
+	$relativeUrl = !variable('dir_skip_node') && nodeIsNot(variable('section')) ? nodeValue() . '/' : '';
+	if (is_array($breadcrumbs)) {
+		if (variable('dir_pop_breadcrumbs') && count($breadcrumbs) > 1) array_pop($breadcrumbs);
+		$relativeUrl .= implode('/', $breadcrumbs) . '/';
+	};
 
 	if (hasPageParameter('generate-index')) {
 		addScript(features::engage, COREASSETS);

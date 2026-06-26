@@ -147,6 +147,7 @@ function add_table($id, $dataFile, $columnList, $template, $values = []) {
 	$customHead = valueIfSet($values, 'use-a-custom-head');
 	$wantsBSEnricher = valueIfSet($values, 'bs-use-enricher');
 	$lineTemplateForBS = isset($values['bs-template']) ? $values['bs-template'] : false;
+	$sheet = null;
 
 	if ($dontTreat) {
 		$rows = $dataFile;
@@ -188,6 +189,12 @@ function add_table($id, $dataFile, $columnList, $template, $values = []) {
 	} else {
 		$sheet = getSheet($dataFile, false);
 		$rows = $sheet->rows;
+	}
+
+	if ($php = valueIfSetAndNotEmpty($values, 'renderWith')) {
+		$php = pathinfo($dataFile, PATHINFO_DIRNAME) . '/' . $php;
+		disk_include($php, ['items' => $rows, 'values' => $values, 'sheet' => $sheet]);
+		return;
 	}
 
 	if (!$dontTreat AND !$wantsBSRow)
