@@ -1,0 +1,10 @@
+|is-table
+||cloneAt: businesses/
+||renderWith: repos.php
+||Description: Business Sites Hosted
+||Primary Keyword: Hosting
+||Keywords: Sites, Not Yet DAWN
+#at	from
+aztras	https://github.com/joyfulearth-sites/aztras.git
+iscindia	https://github.com/joyfulearth-sites/iscindia.git
+watchmaker	https://github.com/joyfulearth-members/watchmaker.git

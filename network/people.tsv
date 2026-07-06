@@ -1,12 +1,10 @@
 |is-table
-||cloneAt: all/
+||cloneAt: people/
 ||renderWith: repos.php
 ||Description: Friends / Initiatives at subdomains of JE
 ||Primary Keyword: Catch All
 ||Keywords: Vishwas Mental Health, WiseOwls.life, DAWN
 #at	from
-_all-root	https://github.com/joyfulearth-members/_all-root.git
 srividya	https://github.com/joyfulearth-members/srividya.git
 umsy	https://github.com/joyfulearth-members/umsy.git
-vishwas	https://github.com/joyfulearth-members/vishwas.git
-watchmaker	https://github.com/joyfulearth-members/watchmaker.git
+vishnuvasu	https://github.com/joyfulearth-sites/vishnuvasu.git

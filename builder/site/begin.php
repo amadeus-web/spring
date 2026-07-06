@@ -18,7 +18,7 @@ foreach ($sheet->rows as $row) {
 }
 
 if (function_exists('enhanceAllSite'))
-	enhanceAllSite($siteVars);
+	enhanceAllSite($siteVars, SITEINFO);
 
 variables([
 	'site-vars' => $siteVars,

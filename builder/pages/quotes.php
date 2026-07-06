@@ -1,5 +1,5 @@
 <?php
-if (!variable('skip_node_heading'))
+if (!variable('skip_quote_heading'))
 	printNodeHeading();
 
 $all = explode('---', disk_file_get_contents(SITEPATH . '/data/quotes.md'));
@@ -23,7 +23,8 @@ function _renderItem($item, $ix, $show) {
 	else
 		$link = getLink('Quote # ' . $ix, pageUrl('quotes/?show=' . $ix), $btn);
 
-	contentBox('quote-' . $ix, 'container');
+	contentBox('quote quote-' . $ix, 'container');
+	if (!variable('skip_quote_link'))
 	h2($link);
 	echo returnLines($item);
 	contentBox('end');

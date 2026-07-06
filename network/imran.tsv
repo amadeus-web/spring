@@ -1,12 +1,12 @@
 |is-table
-||cloneAt: federated/
+||cloneAt: us/imran/
 ||renderWith: repos.php
 ||Description: Imran - Founder / Chief Architect of DAWN
 ||Primary Keyword: DAWN
 ||Keywords: Imran Ali Namazi, Dynamic AmadeusWeb Network
 #at	from
-imran	https://github.com/imran-ali-namazi/imran.git
-imran/2026	https://github.com/imran-ali-namazi/2026.git
-imran/2025	https://github.com/imran-ali-namazi/2025.git
-imran/on-tech	https://github.com/imran-ali-namazi/on-tech.git
-imran/my-ideas	https://github.com/imran-ali-namazi/my-ideas.git
+	https://github.com/imran-ali-namazi/imran.git
+2026	https://github.com/imran-ali-namazi/2026.git
+2025	https://github.com/imran-ali-namazi/2025.git
+on-tech	https://github.com/imran-ali-namazi/on-tech.git
+my-ideas	https://github.com/imran-ali-namazi/my-ideas.git

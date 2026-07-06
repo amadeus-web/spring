@@ -327,7 +327,7 @@ function _copyright($return = false) {
 	$before = variable(VAROwnedBy) ? '<strong>' . variable('name') . '</strong>, ' : '';
 	$after = variable(VAROwnedBy) ? variable(VAROwnedBy) : variable('name');
 
-	$result = '&copy; ' . $before . 'Copyright <strong><span>' . $after . '</span></strong>. ' . $from . $year . ' All Rights Reserved.';
+	$result = '&copy; ' . $before . 'Copyright ' . $from . $year . ' <strong><span>' . $after . '</span></strong>. <br />All Rights Reserved.';
 	if ($return) return $result; else echo $result;
 }
 

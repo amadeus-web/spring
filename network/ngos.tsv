@@ -1,0 +1,9 @@
+|is-table
+||cloneAt: ngos/
+||renderWith: repos.php
+||Description: Sites of NGOs
+||Primary Keyword: Hosting
+||Keywords: Sites, Not Yet DAWN
+#at	from
+anbagam	https://github.com/anbagam1999/web.git
+globalconcernsindia	https://github.com/globalconcernsindia/globalconcernsindia.git
