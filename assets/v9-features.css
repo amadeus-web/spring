@@ -4,32 +4,19 @@
 .has-gemini-ai .prompt, .standout {
 	background-color: var(--cnvs-themecolor, #bbb2f2)!important;
 	color: #fff;
-	font-size: 150% !important;
+	font-size: 120% !important;
 }
 
 .has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type { background-color: #ffffea; }
 .has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type h1 { font-size: 16px; margin-bottom: 5px; }
-.has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type a::before { content: '** Ignore this link --> '; }
+.has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type a:not(.send-icon)::before { content: '** Ignore this link --> '; }
 
 section.has-gemini-ai h1 { display: none; }
 .articles-codesnippet > *, section.has-gemini-ai h2 { font-size: 14px; }
 .articles-codesnippet blockquote { font-size: 16px; }
 .articles div.large-list, .articles .large-list li { font-size: 100%!important; }
 
-/* https://stackoverflow.com/a/26849367 */
-.has-prompts {
-	counter-reset: promptscount 0;
-}
-
-.prompt {
-	counter-increment: promptscount 1;
-}
-
-.has-prompts .prompt:before {
-	content: "Prompt #" counter(promptscount);
-}
-
-.prompt::before, .right-button {
+.prompt-button, .right-button {
 	font-weight: bold;
 	font-size: 125%;
 	background-color: whitesmoke;
