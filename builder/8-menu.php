@@ -361,9 +361,10 @@ function flatMenu($items, $name) {
 	setMenuSettings(); //undo page-menu stuff
 	extract(variable('menu-settings'));
 
-	if ($wrapTextInADiv) $name = '<div>' . $name . '++' . $topLevelAngle . '</div>';
+	$menuClass = ' flat-menu menu-' . urlize($name);
+	if ($wrapTextInADiv) $name = '<div>' . $name . $topLevelAngle . '</div>';
 
-	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . '">' . $name . '</a>' . NEWLINES2;
+	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . $menuClass . '">' . $name . '</a>' . NEWLINES2;
 	echo '	<ul class="' . $ulClass . '">' . NEWLINE;
 
 	$urlKey = _getUrlKeySansPreview();
@@ -390,9 +391,10 @@ function twoLevelMenu($items, $topName) {
 	setMenuSettings(); //undo page-menu stuff
 	extract(variable('menu-settings'));
 
-	if ($wrapTextInADiv) $topName = '<div>' . $topName . '++' . $topLevelAngle . '</div>';
+	$menuClass = ' flat-menu menu-' . urlize($topName);
+	if ($wrapTextInADiv) $topName = '<div>' . $topName . $topLevelAngle . '</div>';
 
-	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . '">' . $topName . '</a>' . NEWLINES2;
+	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . $menuClass . '">' . $topName . '</a>' . NEWLINES2;
 	echo '	<ul class="' . $ulClass . '">' . NEWLINE;
 
 	$urlKey = _getUrlKeySansPreview();

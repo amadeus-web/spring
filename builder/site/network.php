@@ -1,7 +1,7 @@
 <?php
 DEFINE('NETWORKDEFINEDAT', DEFINED('NETWORKPATH') ? NETWORKPATH . '/' : AMADEUSSITEROOT . 'data/');
 DEFINE('NETWORKNAME', '~JoyfulEarth\'s ');
-DEFINE('NETWORKABBR', 'JE');
+DEFINE('NETWORKABBR', 'DAWN');
 
 setupNetwork();
 
@@ -12,7 +12,7 @@ function network_menu() {
 		flatMenu(variable('networkSites'), variable(VARNetwork));
 
 	$urlKey = _getUrlKeySansPreview();
-	$dawnFols = ['joyfulearth', 'spring', 'federated/imran'];
+	$dawnFols = ['joyfulearth', 'spring', 'us/imran', 'us/smithy'];
 	$dawn = [];
 	foreach ($dawnFols as $slug) {
 		if (!is_dir(ALLSITESROOT . $slug)) continue;
@@ -21,13 +21,18 @@ function network_menu() {
 
 	$items = ['DAWN' => $dawn];
 
-	$folders = [
-		'federated',
-		'networks',
-		'others',
-		//TODO: HI: when doing 'all',
-		//TODO: 'for/vidya'
-	];
+	$skipRest = false; $skipAfterFor = ['vidya'];
+
+	$linuxPath = str_replace('\\', '/', SITEPATH);
+	if (contains($linuxPath, '/for/')) {
+		$slug = explode('/for/', $linuxPath)[1];
+		$slug = explode('/', $slug)[0];
+		$items[humanize($slug)] = setupNetwork('for/' . $slug);
+		$skipRest = in_array($slug, $skipAfterFor);
+	}
+
+	disk_include_once(AMADEUSSITEROOT . '/entries/all-registry.php');
+	$folders = $skipRest ? [] : ALLREGISTRY['public_html']['subfolders'];
 	foreach ($folders as $slug) {
 		if (!is_dir(ALLSITESROOT . $slug)) continue;
 		$items[humanize($slug)] = setupNetwork($slug);

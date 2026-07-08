@@ -1,9 +1,12 @@
 ~Core
 joyfulearth
 spring
+us/smithy
 
-~Authors
-federated/imran
+~Us
+us/imran
+us/missions
+us/ganymede
 
 ~Showcase
 for/vidya/awakentolife
