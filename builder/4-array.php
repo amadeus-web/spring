@@ -274,6 +274,11 @@ class sheet {
 		return $result ? $result : $default;
 	}
 
+	public function valueOfFirstOr($key, $columnName, $else) {
+		$item = $this->firstOfGroup($key, false, false);
+		return $item ? $this->getValue($item, $columnName) : $else;
+	}
+
 	public function getAllItemsAsObject($source = false, $enrich = false) {
 		if (!$source) $source = $this->rows;
 		$items = [];

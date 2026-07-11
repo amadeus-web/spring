@@ -1,8 +1,8 @@
 /***
- * This code is part of the php framework "" and is Proprietary, Source-available software!
+ * This code is part of the php framework "AmadeusWeb Spring" and is Proprietary, Source-available software!
  * Author: Imran Ali Namazi <imran@amadeusweb.world>
  * You MUST agree to and adhere to all "courtesies" required by:
- *     https://github.com/amadeus-web-world/spring#License-1-ov-file
+ *     https://github.com/joyfulearth/spring#License-1-ov-file
 ***/
 
 if (typeof ($) === 'undefined') $ = jQuery.noConflict();
@@ -12,7 +12,15 @@ $(document).ready(function () {
 	if (sansTH.length) {
 		sansTH.each(function (ix, el) {
 			const th = $('tr:first', $(this));
-			$(this).find('thead').append(th);
+			const tr = []; //You cannot dynamically change headers on an active DataTables instance.
+			$('td', th).each(function() {
+				var title = $(this).text();
+				const append = '<input class="filter filter-' + title.toLowerCase().replaceAll(' ', '-')
+					+ '" type="text" placeholder="' + title + '" />';
+				$(this).replaceWith('<th>' + $(this).html() + '</th>');
+				tr.push('<td>' + append + '</td>');
+			});
+			$(this).find('thead').append(th).append('<tr class="filters">' + tr.join('') + '</tr>');
 			$(this).addClass('amadeus-data-table');
 		});
 	}
@@ -25,13 +33,11 @@ $(document).ready(function () {
 
 	$('.amadeus-data-table').each(function (ix, tbl) {
 		const sth = $(tbl).hasClass('table-sans-th');
-		$(tbl).DataTable(getDTParams(sth));
+		$(tbl).DataTable(getDTParams(sth, $(tbl)));
 	});
 
 	function getDTParams(slim) {
 		return {
-			amadeusTable: undefined, id: undefined, cardView: undefined,
-
 			//https://datatables.net/reference/option/layout
 			layout: {
 				top: slim ? null : 'info',
@@ -46,6 +52,7 @@ $(document).ready(function () {
 				bottomEnd: null,
 			},
 
+			orderCellsTop: true,
 			responsive: true,
 			paging: false,
 			'order': [], //off by default
@@ -55,28 +62,12 @@ $(document).ready(function () {
 	}
 
 	function initAWBTComplete(settings, json) {
-		const amadeusTable = thisTable($(this)),
-			tableId = amadeusTable.attr('id'),
-			cardView = tableId + '-card-view';
-
-		// Setup - add a text input to each header cell with header name
-		$('thead th, thead td', amadeusTable).each(function (ix, el) {
-			var title = $(this).text();
-			$(this).html(title + '<br><input class="filter filter-' + title.toLowerCase().replaceAll(' ', '-') + '" type="text" placeholder="Search ' + title + '" />');
-		});
-
+		const tableJQ = $(this);
 		const table = this.api();
-
-		// Apply the search
 		table.columns().every(function () {
 			var that = this;
-			//TODO: responsive shows as undefined
-			$('input', this.header()).on('keyup change clear', function () {
-				if (that.search() !== this.value) {
-					that
-						.search(this.value)
-						.draw();
-				}
+			$('.filters input:nth-of-type(' + this.index() + ') ', tableJQ).on('keyup change clear', function () {
+				that.search(this.value).draw();
 			});
 		});
 	}

@@ -6,6 +6,4 @@
 ||Keywords: CMS, Web Builder
 #at	from
 	https://github.com/joyfulearth/spring.git
-sections/dawn	https://github.com/joyfulearth/dawn.git
-sections/opus	https://github.com/joyfulearth/opus.git
-sections/smithy	https://github.com/joyfulearth/smithy.git
+smithy	https://github.com/joyfulearth/smithy.git

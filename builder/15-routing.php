@@ -169,8 +169,8 @@ class nodeSettings extends builderBase {
 function autoSetNode($level, $where, $overrides = []) {
 	$section = variable('section');
 
-	nodeVarsInUse($level);
 	if (nodeIs(SITEHOME) OR nodeIsSection()) return;
+	nodeVarsInUse($level);
 
 	$relPath = $level == 0 ? nodeValue() : str_replace('\\', '/', 
 		substr($where, strlen(SITEPATH . '/' . $section) + 1));
@@ -183,7 +183,7 @@ function autoSetNode($level, $where, $overrides = []) {
 
 	$vars = array_merge([
 		'nodeSlug' => $relPath,
-		assetKey(NODEASSETS) => fileUrl($section . '/' . $relPath . '/assets/'),
+		assetKey(NODEASSETS) => fileUrl($section . '/' . nodeValue() . '/assets/'),
 		VARNodeSiteName => humanize($endSlug),
 		VARNodeSafeName => $prefix . $endSlug,
 		VARSubmenuAtNode => true,
@@ -206,9 +206,10 @@ function autosetPageMenu($overrides = []) {
 	$section = sectionValue();
 	$node = nodeValue();
 	if (!$section) return;
-	$suffix = $section == $node ? '' : '/' . $node;
+	$sectionPath = SITEPATH . '/' . sectionValue();
+	$suffix = $section == $node || !disk_is_dir($sectionPath . '/' . $node) ? '' : '/' . $node;
 
-	autoSetNode(1, SITEPATH . '/' . sectionValue() . $suffix, $overrides);
+	autoSetNode(1, $sectionPath . $suffix, $overrides);
 }
 
 function lastNodeVarsIndex() {

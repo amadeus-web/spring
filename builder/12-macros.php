@@ -288,7 +288,7 @@ function processSpacerShortcode($html) {
 function processPromptShortcode($html) {
 	return replaceItems($html, [
 		'[prompt]' => cbCloseAndOpen('prompt'),
-		'[/prompt]' => cbCloseAndOpen(),
+		'[/prompt]' => cbCloseAndOpen('response'),
 	]);
 }
 

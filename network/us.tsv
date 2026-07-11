@@ -1,0 +1,9 @@
+|is-table
+||cloneAt: us/
+||renderWith: repos.php
+||Description: DAWN Sites by Imran
+||Primary Keyword: DAWN
+||Keywords: Imran, Our Sites
+#at	from
+ganymede	https://github.com/joyfulearth-members/ganymede.git
+goodness	https://github.com/joyfulearth-members/goodness.git

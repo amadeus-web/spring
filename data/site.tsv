@@ -15,6 +15,6 @@ mediakit	?palette=default
 fonts	cursive=Eagle+Lake&menu=Quintessential&menu-size=1.3rem
 
 |technical
-sections	sections, network, whois
+sections	smithy, network, whois
 local-url	http://localhost/spring/
 live-url	https://spring.joyfulearth.org/
