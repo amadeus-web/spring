@@ -47,7 +47,7 @@ function _renderMenu($home, $folder, $where) {
 	}
 
 	echo GOOGLEOFF;
-	contentBox('nodes', variable('directory_use_excerpts') ? '' : 'after-content mb-5');
+	contentBox('nodes', variable('directory_use_excerpts') ? '' : 'container after-content mb-5');
 
 	if (!$breadcrumbs && !variable('dir_skipBreadcrumbs'))
 		_sections($where);

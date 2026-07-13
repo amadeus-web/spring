@@ -7,11 +7,11 @@
 		<title><?php echo title() . ' [AW DECK]';?></title>
 		<link href="<?php echo fileUrl(variable(VARSafeName)); ?>-icon.png" rel="icon">
 
+		<?php cssTag(assetUrl('3p/reset.css', COREASSETS));?>
 		<?php cssTag(assetUrl('3p/reveal.css', COREASSETS));?>
-		<?php cssTag(assetUrl('3p/reveal-white.css', COREASSETS));?>
 
 		<!-- Theme used for syntax highlighted code -->
-		<?php cssTag(assetUrl('presentation2.css', COREASSETS)); ?>
+		<?php cssTag(assetUrl('presentation.css', COREASSETS)); ?>
 		<?php main::analytics(); ?>
 	</head>
 	<body id="<?php echo variable('all_page_params'); ?>">
@@ -27,7 +27,7 @@
 		<div class="reveal">
 			<div class="slides">
 <section>
-				<?php echo replaceItems(variable('deck'), ['<hr>' => NEWLINE . '</section><section>' . NEWLINE]); ?>
+				<?php echo variable('deck'); ?>
 </section>
 
 			</div>

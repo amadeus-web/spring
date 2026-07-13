@@ -229,6 +229,8 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 	if (valueIfSet($settings, VARUseContentBox, BOOLNo))
 		$output = cbWrapAndReplaceHr($output);
+	else
+		$output = str_replace(HRTAG, cbCloseAndOpen('container'), $output);
 
 	if (!$noReplaces && isset($settings['heading'])) $output = variableOr('custom-heading', h2($settings['heading'], 'amadeus-heading amadeus-icon', BOOLYes)) . NEWLINES2 . $output;
 

@@ -93,7 +93,6 @@ runFrameworkFile('21-site');
 
 class features {
 	const blurbs = 'blurbs';
-	const deck = 'deck';
 	const directory = 'directory';
 	const engage = 'engage';
 	const familyTree = 'family-tree';

@@ -59,7 +59,7 @@ function builtinOrRender($file, $type = false, $useHeading = true) {
 		if (contains($raw, '<!--is-blurbs-->')) {
 			features::runWithFile(features::blurbs, $file);
 		} else if (contains($raw, '<!--is-deck-->')) {
-			features::runWithFile(features::deck, $file);
+			_renderDeck($file);
 		} else if (contains($raw, '<!--is-family-tree-->')) {
 			features::runWithFile(features::familyTree, $file);
 		} else {
@@ -114,6 +114,105 @@ function builtinOrRender($file, $type = false, $useHeading = true) {
 	if (!$siteTheme) sectionId('file', _getCBClassIfWanted('container'));
 	renderAny($file);
 	if (!$siteTheme) sectionEnd();
+}
+
+function renderInPageDeck($section, $node, $name) {
+	$deck = concatSlugs([variable('path'), $section, $node . '.md']);
+	$title = humanize($node) . ' &raquo; ' . $name;
+	variable('embed', true);
+	_renderedDeck($deck, $title, pageUrl($node . '/'));
+}
+
+function renderSheetAsDeck($deck, $link) {
+	if (!hasPageParameter('embed') && !hasPageParameter('expanded')) {
+		_renderDeck($deck);
+		return;
+	}
+
+	$sheet = getSheet($deck, false);
+	$op = [];
+	foreach ($sheet->rows as $item) {
+		$type = $item[$sheet->columns['type']];
+		$text = $item[$sheet->columns['text']];
+
+		if ($type == 'slide') {
+			if (count($op)) { $op[] = ''; $op[] = '----'; $op[] = ''; }
+			$op[] = '<input type="hidden" value="' . $text . '" />';
+			$op[] = '';
+		} else if ($type == 'heading') {
+			$op[] = '## ' . $text;
+			$op[] = '';
+		} else if ($type == 'sub-heading') {
+			$op[] = '### ' . $text;
+			$op[] = '';
+		} else if ($type == 'paragraph') {
+			$op[] = $text;
+			$op[] = '';
+		} else if ($type == 'image') {
+			$op[] = replaceHtml($text);
+			$op[] = '';
+		} else if ($type == 'style-file') {
+			variable('style-file', replaceHtml($text));
+		} else if ($type == 'print-config') {
+			variable('print-config', $text);
+		} else if ($type == 'item') {
+			if (end($op) != '') $op[] = '';
+			$op[] = '* ' . $text;
+		}
+	}
+
+	variable('nodeLink', $link);
+	$op = implode(NEWLINE, $op);
+	_renderDeck($op);
+}
+
+function __parseDeck($deck) {
+	$hrWith = NEWLINE . '</section><section>' . NEWLINE;
+	$deck = renderMarkdown($deck, [ 'echo' => false, VARStripParagraphTag => true, 'plainReplaces' => ['---' => $hrWith]]);
+	return $deck;
+}
+
+function _renderDeck($deck, $goesTo = false) {
+	if (hasPageParameter('embed')) {
+		$deck = __parseDeck($deck);
+		variable('deck', $deck);
+		runModule('revealjs');
+		return true;
+	}
+
+	$expanded = hasPageParameter('expanded');
+	$url = $goesTo ? $goesTo : currentUrl();
+
+	$embedUrl = $url .'?embed=1';
+
+	sectionId('deck-toolbar', 'text-center');
+	h2(title(FORHEADING), cssUX::CenterContainer);
+	contentBox('deck', 'toolbar');
+	echo 'PRESENTATION: ' . variable('nl');
+	$links = [];
+
+	//TODO: UI FIX: if (!$expanded) $links[] = '<a class="toggle-deck-fullscreen" href="javascript: $(\'.deck-container\').show();"><span class="text">maximize</span> ' . getIconSpan('expand', 'normal') . '</a>';
+	if ($expanded) $links[] = makeLink('open deck page', $url, false);
+	$links[] = makeLink('open deck fully', $embedUrl, false);
+	$links[] = makeLink('print', $embedUrl . '&print=1', false); //TODO: wip - make this on demand
+	$links[] = $expanded ? 'expanded deck below' : makeLink('open deck expanded', $url . '?expanded=1', false);
+	//TODO: get this working and support multi decks
+	//$(this).closest(\'.deck-toolbar\').next(\'.deck-container\').toggle();
+	if (!$expanded) $links[] = makeLink('toggle deck below', 'javascript: $(\'.deck-container\').toggle();', false);
+
+	echo implode(' &nbsp;&nbsp;&mdash;&nbsp;&nbsp; ' . NEWLINE, $links);
+	contentBox('end');
+	sectionEnd();
+
+	if ($expanded) {
+		$deck = __parseDeck($deck);
+		$deck = cbWrapAndReplaceHr($deck, 'container'); //in revealjs we will use plain sections
+		echo $deck;
+	} else {
+		echo sprintf('<section class="deck-container container">'
+			. '<iframe src="%s&iframe=1"></iframe></section>', $embedUrl);
+		addScript('presentation-toolbar', COREASSETS);
+	}
 }
 
 function hasBuiltin() {
