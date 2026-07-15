@@ -1,12 +1,12 @@
 ~Core
 joyfulearth
 spring
-us/smithy
+us/ganymede
 
 ~Us
 us/imran
-us/missions
-us/ganymede
+us/goodness
+us/archives
 
 ~Showcase
 for/vidya/awakentolife

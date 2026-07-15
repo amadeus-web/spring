@@ -14,10 +14,3 @@ DIV-CLEAR
 %cta-or-engage-corecodesnippet%
 
 %network-corecodesnippet%
-
-<!--
-[Work on a new version of the network is in progress and we will be up shortly]
-
-%media-co-recodesnippet%
-
--->

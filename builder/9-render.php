@@ -1,13 +1,12 @@
 <?php
 class renderSET extends builderBase {
 	const default = 'implementation';
-	//TODO: const excerpt = 'excerpt';
 
 	private $method, $pageId;
 
 	static function create($method = self:: default, $echo = BOOLYes, $pageId = null) {
 		$r = new renderSET();
-		if ($echo) $r->echo($echo);
+		$r->echo($echo);
 		$r->method = $method;
 		$r->pageId = $pageId != null ? $pageId : nodeValue();
 		return $r;
@@ -33,6 +32,14 @@ class renderSET extends builderBase {
 		return $this->setValue(VAREcho, $yes);
 	}
 
+	function excerpt($yes = BOOLYes) {
+		return $this->setValue(VARExcerpt, $yes);
+	}
+
+	function markdown($yes = BOOLYes) {
+		return $this->setValue(VARMarkdown, $yes);
+	}
+
 	function noParas($yes = BOOLYes) {
 		return $this->setValue(VARStripParagraphTag, $yes);
 	}
@@ -53,8 +60,10 @@ function renderExcerpt($file, $link, $prefix = '', $echo = BOOLYes) {
 
 	$text = disk_file_exists($file) ? disk_file_get_contents($file) : $file;
 	$hasMoreTag = contains($text, MORETAG);
-	if (!$hasMoreTag && $meta && isset($meta['excerpt'])) $raw = returnLine($meta['excerpt']); else
-	$raw = renderAny($text, [VARExcerpt => BOOLYes, VAREcho => BOOLNo]);
+	if (!$hasMoreTag && $meta && isset($meta['excerpt']))
+		$raw = returnLine($meta['excerpt']);
+	else
+		$raw = renderSET::create(renderSET::default, BOOLNo)->markdown()->excerpt()->render($text);
 
 	$raw .= '<hr class="m-2" /><div style="text-align: right;">';
 	if ($meta && isset($meta['meta']['Date'])) $raw .= 'on ' . $meta['meta']['Date'] . '';
@@ -217,7 +226,7 @@ function _renderImplementation($fileOrRaw, $settings) {
 	if (!$noReplaces && !isset($settings[VARDontPrepareLinks]))
 		$output = prepareLinks($output); //if doing before markdown then this gets messed up
 
-	if (!$noReplaces && isset($settings[VARStripParagraphTag]))
+	if (!$noReplaces && valueIfSet($settings, VARStripParagraphTag))
 		$output = strip_paragraph($output);
 
 	if (contains($output, '%fileName%'))

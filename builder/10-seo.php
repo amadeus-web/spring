@@ -59,7 +59,7 @@ function read_seo(string $file, $inContent = false) {
 			} else if (in_array($key, $descriptionFields)) {
 				$description = $value;
 			} else if (in_array($key, $excerptFields)) {
-				$excerpt = $value;
+				$excerpt = pipeToBR($value);
 			} else if (in_array($key, $keywordsFields)) {
 				$keywords[] = $value;
 			/* TODO: DECIDE and REMOVE after seeing how seo reacts!

@@ -115,7 +115,6 @@ function replaceSnippets($html, $files = false, $fol = false) {
 		if (!contains($html, $key)) continue;
 		$op = renderMarkdown($fol . $file, [
 			'echo' => false,
-			'strip-paragraph-tag' => true,
 			'raw' => $ext == 'html',
 		]);
 

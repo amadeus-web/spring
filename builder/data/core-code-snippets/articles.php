@@ -5,8 +5,8 @@ if (!sheetExists($sheetName)) return h2('No articles found.', 'text-danger', tru
 
 $sheet = getSheet($sheetName, false);
 
-$op = ['</section><div class="container articles-codesnippet"><div class="articles row">' . NEWLINE];
-$format = '<section class="p-3 col-md-4 col-sm-6 col-12%moreClasses%"><div class="content-box">%title%
+$op = ['</section><div class="container"><div class="portfolio row grid-container articles-codesnippet">' . NEWLINE];
+$format = '<section class="portfolio-item col-lg-4 col-md-6 col-xs-12 mb-4 %moreClasses%"><div class="content-box">%title%
 <br /><br />%excerpt%</div></section>';
 
 foreach ($sheet->rows as $item) {
@@ -16,9 +16,10 @@ foreach ($sheet->rows as $item) {
 	$path = $sheet->getValue($item, 'path');
 
 	$relPath = str_replace('/home', '', $path);
+	if ($relPath == 'home' && variable(VARSectionsHaveFiles)) $relPath = $section;
 	$url = replaceHtml(DEFINED('NETWORKPATH') && $site ? getSiteKey($site) : '%url%');
 
-	$link = $url . ($node ? nodeValue() . '/' . $node . '/' : '') . $relPath . '/';
+	$link = $url . $relPath . '/';
 
 	$base = $site && DEFINED('NETWORKPATH')
 		? NETWORKPATH . '/' . $site . '/'
