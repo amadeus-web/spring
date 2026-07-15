@@ -125,7 +125,7 @@ function before_bootstrap() {
 	variable('app', $spring = $local && !$isMobile ? getUrlFrom('spring') : getUrlFrom('spring', 'live-url'));
 
 	addNetworkUrl(SITEROOT, getUrlFrom('joyfulearth') ?? '');
-	addNetworkUrl(SITEIMRAN, getUrlFrom('federated/imran'));
+	addNetworkUrl(SITEIMRAN, getUrlFrom('us/imran'));
 	addNetworkUrl(SITESPRING, getUrlFrom('spring'));
 	//NOTE: no more self hosted. //TODO: HI: allow
 	variable('app-themes', $spring . 'themes/');

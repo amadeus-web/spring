@@ -116,11 +116,14 @@ function builtinOrRender($file, $type = false, $useHeading = true) {
 	if (!$siteTheme) sectionEnd();
 }
 
-function renderInPageDeck($section, $node, $name) {
+function renderInPageDeck($section, $node, $title = false) {
 	$deck = concatSlugs([variable('path'), $section, $node . '.md']);
-	$title = humanize($node) . ' &raquo; ' . $name;
-	variable('embed', true);
-	_renderedDeck($deck, $title, pageUrl($node . '/'));
+	doToBuffering(1);
+	if ($title) echo tagUX::h2Plain($title, cssUX::CenterContainer);
+	_renderDeck($deck, pageUrl($node . '/'), true);
+	$result = doToBuffering(2);
+	doToBuffering(3);
+	return $result;
 }
 
 function renderSheetAsDeck($deck, $link) {
@@ -172,7 +175,7 @@ function __parseDeck($deck) {
 	return $deck;
 }
 
-function _renderDeck($deck, $goesTo = false) {
+function _renderDeck($deck, $goesTo = false, $skipTitle = false) {
 	if (hasPageParameter('embed')) {
 		$deck = __parseDeck($deck);
 		variable('deck', $deck);
@@ -186,7 +189,7 @@ function _renderDeck($deck, $goesTo = false) {
 	$embedUrl = $url .'?embed=1';
 
 	sectionId('deck-toolbar', 'text-center');
-	h2(title(FORHEADING), cssUX::CenterContainer);
+	if (!$skipTitle) echo tagUX::h2Plain(title(FORHEADING), cssUX::CenterContainer);
 	contentBox('deck', 'toolbar');
 	echo 'PRESENTATION: ' . variable('nl');
 	$links = [];
@@ -206,7 +209,7 @@ function _renderDeck($deck, $goesTo = false) {
 
 	if ($expanded) {
 		$deck = __parseDeck($deck);
-		$deck = cbWrapAndReplaceHr($deck, 'container'); //in revealjs we will use plain sections
+		$deck = cbWrapAndReplaceHr($deck, 'container');
 		echo $deck;
 	} else {
 		echo sprintf('<section class="deck-container container">'

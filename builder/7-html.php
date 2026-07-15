@@ -192,9 +192,6 @@ function replaceHtml($html) {
 			'%address-url%' => variableOr('address-url', '#no-link'),
 
 			'%welcomeMessage%' => markdown(pipeToNL(variable(VARWelcomeMessage))), //links will get picked up
-			//TODO:
-			//'%network-link%' => networkLink('btn btn-success', '<hr class="mt-5" />'),
-			//'%networkName%' => DAWN_NAME,
 			'%siteName%' => $sn = variable('name'),
 			'%siteName_subject%' => urlencode($sn),
 			'%byline%' =>  variable(VARByline),
@@ -327,6 +324,11 @@ class tagUX {
 		$result = NEWLINE . '<div' . $attrs . '>' . NEWLINE;
 		if ($return) return $result;
 		echo $result;
+	}
+
+	static function h2Plain($text, $class) {
+		if ($class) $class = ' class="' . $class . '"';
+		return '<h2' . $class . '>' . $text . '</h2>' . NEWLINE;
 	}
 
 	static function heading($text, $class = '', $return = false, $level = 2) {
