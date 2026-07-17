@@ -267,6 +267,10 @@ class sheet {
 		return isset($this->columns[$columnName]);
 	}
 
+	public function getBoolValue($item, $columnName) {
+		return valueIfSet($item, $this->columns[$columnName]);
+	}
+
 	public function getValue($item, $columnName, $default = VAREMPTY, $urlize = false) {
 		if (!isset($item[$this->columns[$columnName]])) showDebugging('Invalid Column: ' . $columnName . ' of file: ' . $this->filePath, $item, false, IncludeTrace);
 		$result = $item[$this->columns[$columnName]];

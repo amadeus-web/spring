@@ -1,0 +1,45 @@
+body, #content { background-color: #fff!important; }
+
+#wrapper { margin: auto; }
+.new-page { page-break-before: always; }
+.container { margin-top: 80px; padding: 15px; border: 2px solid #444; z-index: 1001; }
+.title-page.container { height: calc(210mm - 110px); place-items: center; display: grid; text-align: center; }
+.container ul, .container ol { margin-left: 25px; }
+
+#header, #footer, .print-button, .hide-in-print, #gotoTop { display: none!important; }
+.show-in-print { display: block!important; }
+
+#print-header, #print-footer {
+	position: fixed;
+	left: 50px; right: 50px;
+	display: block!important;
+}
+
+#print-header { top: 15px; }
+#print-footer { bottom: 15px; }
+#print-header h2 { margin: 0; }
+
+/***
+ * https://www.geeksforgeeks.org/how-to-make-an-html-page-in-a4-paper-size/
+ **/
+
+/* Set A5 size */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@page {
+	size: A5;
+	margin: 0;
+}
+
+/* Set content to fill the entire A5 page */
+html,
+body {
+	width: 148mm;
+	height: 210mm;
+	margin: 0;
+	padding: 0;
+}

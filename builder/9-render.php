@@ -153,8 +153,8 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 	if (function_exists('site_render_content')) $raw = site_render_content($raw);
 
-	$replacesParams = isset($settings['replaces']) ? $settings['replaces'] : [];
-	$plainReplaces = isset($settings['plainReplaces']) ? $settings['plainReplaces'] : [];
+	$replacesParams = valueIfSet($settings, 'replaces', []);
+	$plainReplaces = valueIfSet($settings, 'plainReplaces', []);
 	$builtinReplaces = [
 		'site-assets' => variable(assetKey(SITEASSETS)),
 		'site-assets-images' => variable(assetKey(SITEASSETS)) . 'images/',
@@ -222,6 +222,9 @@ function _renderImplementation($fileOrRaw, $settings) {
 		$output = runAllMacros($output);
 		$output = replaceHtml($output);
 	}
+
+	if ($plainReplaces2 = valueIfSet($settings, '2ndPassPlainReplaces'))
+		$output = replaceItems($output, $plainReplaces2, NOWRAPREPLACE);
 
 	if (!$noReplaces && !isset($settings[VARDontPrepareLinks]))
 		$output = prepareLinks($output); //if doing before markdown then this gets messed up

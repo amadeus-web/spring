@@ -7,7 +7,8 @@ function sectionBaseOrSitePath($isThisContentQM = false) {
 function before_render() {
 	addStyle('v9-spring', COREASSETS);
 	addStyle('v9-features', COREASSETS);
-	addScript('v9-content', COREASSETS);
+	if (!getQueryParameter('content'))
+		addScript('v9-content', COREASSETS);
 
 	if (function_exists('beforeSectionSet') && beforeSectionSet()) return;
 
