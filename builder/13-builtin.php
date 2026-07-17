@@ -257,6 +257,9 @@ function processAI($raw, $aiName) {
 		FROM_GEMINI_AI => FROM_GEMINI_AI . SPACERSTART . GEMINI_AI_MSG . SPACEREND,
 		'## Prompt:' => '[prompt]',
 		'## Response:' => '[/prompt]' . NEWLINES2,
+		'## User:' => '[promptv2]',
+		'## Gemini:' => '[/promptv2]' . NEWLINES2,
+		'***' => '<p>***</p>',
 	];
 
 	foreach (['https://www.geminiexporter.com/'] as $item)

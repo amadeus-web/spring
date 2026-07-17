@@ -53,7 +53,7 @@ function runAllMacros($html) {
 	if (contains($html, '[spacer]'))
 		$html = processSpacerShortcode($html);
 
-	if (contains($html, '[prompt]'))
+	if (contains($html, '[prompt'))
 		$html = processPromptShortcode($html);
 
 	if (contains($html, 'content-box]'))
@@ -288,6 +288,8 @@ function processPromptShortcode($html) {
 	return replaceItems($html, [
 		'[prompt]' => cbCloseAndOpen('prompt'),
 		'[/prompt]' => cbCloseAndOpen('response'),
+		'[promptv2]' => cbCloseAndOpen('prompt geminiv2'),
+		'[/promptv2]' => cbCloseAndOpen('response geminiv2'),
 	]);
 }
 
