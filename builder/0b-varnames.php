@@ -7,7 +7,7 @@ DEFINE('VARLocal', 'local');
 function is_local() { return variable(VARLocal); }
 
 DEFINE('VARLive', 'live');
-function is_live() { return variable(VARLive); }
+function is_live() { return !is_local(); }
 
 DEFINE('VARUsePreview', 'use-preview');
 define('VARUseAmadeusWeb', '--use-amadeusweb');

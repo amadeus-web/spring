@@ -3,7 +3,7 @@
 <img class="img-fluid img-max-150 float-md-end" src="%site-base%%safeName%-icon.png" />
 # %siteName%
 
-%welcomeMessage%
+%welcome-message%
 
 DIV-CLEAR
 

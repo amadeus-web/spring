@@ -68,7 +68,7 @@ function _visane($siteVars) {
 
 		[VARPhone, $ph1 = VARSystemMobile],
 		[VARWhatsapp, $ph1],
-		[VARPhone2, $ph2 = '+91-9500001909'],
+		[VARPhone2, $ph2 = VARSystemMobile],
 		[VARWhatsapp2, $ph2],
 
 		[VARAddress, VARSystemAddress],

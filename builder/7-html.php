@@ -139,17 +139,26 @@ function replaceSpecialChars($html) {
 	return replaceItems($html, $replaces);
 }
 
+DEFINE('VARHtmlVariables', 'SitewideReplaces');
+
 function getHtmlVariable($key) {
-	return subVariable('htmlSitewideReplaces', '%' . $key . '%');
+	return subVariable(VARHtmlVariables, WRAPREPLACE . $key . WRAPREPLACE);
+}
+
+//needed when welcome uses a snippet
+function setHtmlVariable($key, $value) {
+	$vars = variable(VARHtmlVariables);
+	if (!$vars) return;
+	$vars[WRAPREPLACE . $key . WRAPREPLACE] = $value;
+	variable(VARHtmlVariables, $vars);
 }
 
 function replaceHtml($html) {
 	//TODO: MEDIUM: Warning if called before bootstrap!
-	$key = 'htmlSitewideReplaces';
-	$replaces = variable($key);
+	$replaces = variable(VARHtmlVariables);
 	if (!$replaces) {
 		$node = nodeValue();
-		variable($key, $replaces = [
+		variable(VARHtmlVariables, $replaces = [
 			//Also, we should incorporate dev tools like w3c & broken link checkers
 			'%url%' => variable('page-url'),
 			getSiteKey(SITESPRING) => getSiteUrl(SITESPRING),
@@ -191,7 +200,7 @@ function replaceHtml($html) {
 			'%timings%' => variableOr('timings', '[no-timings]'),
 			'%address-url%' => variableOr('address-url', '#no-link'),
 
-			'%welcomeMessage%' => markdown(pipeToNL(variable(VARWelcomeMessage))), //links will get picked up
+			'%welcome-message%' => markdown(pipeToNL(variable(VARWelcomeMessage))), //links will get picked up
 			'%siteName%' => $sn = variable('name'),
 			'%siteName_subject%' => urlencode($sn),
 			'%byline%' =>  variable(VARByline),
