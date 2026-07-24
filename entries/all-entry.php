@@ -30,14 +30,10 @@ define('SITEPATH', ALLSITEPATH);
 include_once __DIR__ . '/../builder/1-entry.php';
 
 function enhanceAllSite(&$vars, $info) {
-	$name = $info['name'];
-	$subfolder = $info['subfolder'];
-	$vars['local-url'] = replaceSiteInfo($info['local'], $name, $subfolder);
-	$vars['live-url'] = replaceSiteInfo($info['live'], $name, $subfolder);
+	$subfolder = valueIfSet($info, 'subfolder', '');
+	if (!$subfolder) return;
 	$base = $info[(is_local() ? 'local-' : 'live-') . 'base'];
-	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . $name . '/';
-	if (!isset($vars['safeName']))
-		$vars['safeName'] = $name;
+	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . $info['name'] . '/';
 }
 
 function replaceSiteInfo($input, $name, $subfolder) {

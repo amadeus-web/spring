@@ -2,11 +2,13 @@ body { cursor: default; }
 
 /* Menu */
 #header { z-index: 1050; }
-#header-wrap #logo img { height: auto!important; }
+#header-wrap #logo img { height: auto!important; max-height: 100px; }
 .menu-section { background-color: var(--amadeus-menu-section-bgd, #E1F2FF); border: 1px solid #999!important; border-style: solid none solid none!important; }
 body.theme-canvas .menu-link { padding-top: 10px; padding-bottom: 10px; }
 .flat-menu { background-color: #c9fd9b; }
 .menu-dawn { background-color: #fb9bfd; }
+.inner-menu-msa { background-color: #fde49b; }
+.inner-menu-je { background-color: #fda89b; }
 
 .showing-sites .content-wrap { min-height: 100vh; padding-bottom: 30px; }
 .showing-sites .portfolio-item { padding-bottom: 20px; }

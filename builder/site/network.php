@@ -12,14 +12,10 @@ function network_menu() {
 		flatMenu(variable('networkSites'), variable(VARNetwork));
 
 	$urlKey = _getUrlKeySansPreview();
-	$dawnFols = ['joyfulearth', 'spring', 'us/imran', 'us/smithy'];
-	$dawn = [];
-	foreach ($dawnFols as $slug) {
-		if (!is_dir(ALLSITESROOT . $slug)) continue;
-		$dawn[] = getSiteInfo($slug, $urlKey);
-	}
-
-	$items = ['DAWN' => $dawn];
+	$items = ['DAWN' => [
+		getSiteInfo('msa/ad/aurodawns', $urlKey),
+		getSiteInfo('joyfulearth', $urlKey),
+	]]; //TODO: intro
 
 	$skipRest = false; $skipAfterFor = ['vidya'];
 
@@ -27,16 +23,32 @@ function network_menu() {
 	if (contains($linuxPath, '/for/')) {
 		$slug = explode('/for/', $linuxPath)[1];
 		$slug = explode('/', $slug)[0];
+		$items[] = MENUSEPARATOR;
 		$items[humanize($slug)] = setupNetwork('for/' . $slug);
 		$skipRest = in_array($slug, $skipAfterFor);
 	}
 
 	disk_include_once(AMADEUSSITEROOT . '/entries/all-registry.php');
-	$folders = $skipRest ? [] : ALLREGISTRY['public_html']['subfolders'];
-	foreach ($folders as $slug) {
-		if (!is_dir(ALLSITESROOT . $slug)) continue;
-		$items[humanize($slug)] = setupNetwork($slug);
+	$domains = $skipRest ? [] : ALLREGISTRY;
+	foreach ($domains as $domain) {
+		$fol = $domain['folder'];
+		if (!is_dir(ALLSITESROOT . $fol)) continue;
+
+		$these = [];
+		foreach ($domain['main'] as $slug) {
+			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
+			$these[] = getSiteInfo($fol . $slug, $urlKey);
+		}
+
+		$items[] = MENUSEPARATOR;
+		$items[$domain['heading']] = $these;
+
+		foreach ($domain['subfolders'] as $slug) {
+			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
+			$items[humanize($slug)] = setupNetwork($fol . $slug);
+		}
 	}
+
 	twoLevelMenu($items, NETWORKABBR);
 }
 

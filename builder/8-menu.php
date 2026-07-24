@@ -1,6 +1,7 @@
 <?php
 variable('toggle-list', 'toggle-list-below');
 
+DEFINE('MENUSEPARATOR', '----');
 DEFINE('MENUPADLEFT', '							');
 DEFINE('NOPAGESTART', '--page-start--'); //todo: document this!
 function _menuULStart($endAndName = false) {
@@ -269,7 +270,7 @@ function menu($folderRelative = false, $settings = []) {
 			$result .= $indent . '	<' . $itemTag . ' class="menu-section">' . $inner . '</' . $itemTag . '>' . NEWLINE;
 			$indented = 'indented';
 			continue;
-		} else if ($file == '----') {
+		} else if ($file == MENUSEPARATOR) {
 			$result .= $indent . '	<' . $itemTag . ' class="menu-break"><hr></' . $itemTag . '>' . NEWLINE;
 			continue;
 		}
@@ -391,7 +392,8 @@ function twoLevelMenu($items, $topName) {
 	setMenuSettings(); //undo page-menu stuff
 	extract(variable('menu-settings'));
 
-	$menuClass = ' flat-menu menu-' . urlize($topName);
+	$topNameSlug = urlize($topName);
+	$menuClass = ' flat-menu menu-' . $topNameSlug;
 	if ($wrapTextInADiv) $topName = '<div>' . $topName . $topLevelAngle . '</div>';
 
 	echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . $menuClass . '">' . $topName . '</a>' . NEWLINES2;
@@ -400,7 +402,13 @@ function twoLevelMenu($items, $topName) {
 	$urlKey = _getUrlKeySansPreview();
 
 	foreach ($items as $name => $subItems) {
-		echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . '">' . $name . '</a>' . NEWLINE;
+		if ($subItems == MENUSEPARATOR) {
+			echo '	<li class="menu-break"><hr></li>' . NEWLINE;
+			continue;
+		}
+
+		$menuClass = ' inner-menu-' . urlize($name);
+		echo '<li class="' . $itemClass . ' ' . $subMenuClass . '"><a class="' . $anchorClass . $menuClass . '">' . $name . '</a>' . NEWLINE;
 		echo '	<ul class="' . $ulClass . '">' . NEWLINE;
 
 		foreach ($subItems as $item) {
