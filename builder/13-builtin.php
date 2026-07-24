@@ -55,7 +55,7 @@ function builtinOrRender($file, $type = false, $useHeading = true) {
 	}
 
 	if (endsWith($file, '.md')) {
-		sectionId('special-md', 'container');
+		if (!$embed) sectionId('special-md', 'container');
 		if (contains($raw, '<!--is-blurbs-->')) {
 			features::runWithFile(features::blurbs, $file);
 		} else if (contains($raw, '<!--is-deck-->')) {
@@ -70,7 +70,7 @@ function builtinOrRender($file, $type = false, $useHeading = true) {
 			renderAny($file, $settings);
 		}
 
-		sectionEnd();
+		if (!$embed) sectionEnd();
 		pageMenu($file);
 		return;
 	}

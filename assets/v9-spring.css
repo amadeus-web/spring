@@ -2,6 +2,7 @@ body { cursor: default; }
 
 /* Menu */
 #header { z-index: 1050; }
+#header-wrap #logo img { height: auto!important; }
 .menu-section { background-color: var(--amadeus-menu-section-bgd, #E1F2FF); border: 1px solid #999!important; border-style: solid none solid none!important; }
 body.theme-canvas .menu-link { padding-top: 10px; padding-bottom: 10px; }
 .flat-menu { background-color: #c9fd9b; }

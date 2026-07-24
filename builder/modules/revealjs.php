@@ -12,7 +12,8 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<?php cssTag(assetUrl('presentation.css', COREASSETS)); ?>
-		<?php main::analytics(); ?>
+
+<?php main::analytics(); ?>
 	</head>
 	<body id="<?php echo variable('all_page_params'); ?>">
 		<!-- header thanks to: https://www.raymondcamden.com/2014/04/01/Adding-an-Absolutely-Positioned-Header-to-Revealjs -->

@@ -287,6 +287,7 @@ function replaceHtmlShortcuts($output) {
 
 class tagUX {
 	const HorizontalRule = 'hr';
+	const Div = 'div';
 
 	static function selfClosetag($name, $classes, $attributes = []) {
 		$attrs = '';
@@ -300,6 +301,16 @@ class tagUX {
 		$attrs = ' class="' . $classes . '"';
 		if ($id) $attrs = ' id="' . $id . '"' . $attrs;
 		return "<$name$attrs>$innerHtml</$name>";
+	}
+
+	static function tagStart($name, $classes, $id = '') {
+		$attrs = ' class="' . $classes . '"';
+		if ($id) $attrs = ' id="' . $id . '"' . $attrs;
+		return "<$name$attrs>";
+	}
+
+	static function tagEnd($name) {
+		return "</$name>";
 	}
 
 	static function contentBoxClasses($id, $class1, $class2) {
