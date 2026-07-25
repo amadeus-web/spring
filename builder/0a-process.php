@@ -25,6 +25,7 @@ DEFINE('BRTAG', $br = '<br>');
 DEFINE('BRNL', $br . NEWLINE);
 
 DEFINE('SAFENEWLINE', "\r"); ////platform safe
+DEFINE('LINEFEED', "\n");
 DEFINE('VARTab', '	');
 function trimCrLf($txt) { return trim($txt, "\r\n"); }
 function contains($haystack, $needle) { return stripos($haystack, $needle) !== false; }

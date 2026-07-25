@@ -1,8 +1,0 @@
-|is-table
-||cloneAt: initiatives/
-||renderWith: repos.php
-||Description: Friends / Initiatives at subdomains of JE
-||Primary Keyword: Catch All
-||Keywords: Vishwas Mental Health, WiseOwls.life, DAWN
-#at	from
-vishwas	https://github.com/joyfulearth-members/vishwas.git

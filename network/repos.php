@@ -32,6 +32,43 @@ if (isset($variables) && isset($variables['items'])) {
 	}
 	(new tableBuilder('repo', $rows))->render();
 	cbCloseAndOpen(cssUX::container);
+} else {
+	echo tagUX::tagStart(tagUX::Div, cssUX::CenterContainer);
+	$check = getQueryParameter('check');
+	echo getLink('Check Clone Urls', './?check=1', 'btn btn-primary');
+	if ($check) {
+		$files = _skipNodeFiles(scandir(__DIR__), 'md, php');
+		foreach ($files as $page) {
+			echo tagUX::h2Plain($page, 'after-content mt-2');
+			$sheet = getSheet(__DIR__ . '/' . $page . '.tsv', false);
+			$where = ALLSITESROOT . $sheet->values['cloneAt'];
+			$hasIssues = false;
+			$op = [];
+			foreach ($sheet->rows as $item) {
+				$at = $where . $sheet->getValue($item, 'at');
+				$heading = '<b>' . $at . '</b>' . BRNL;
+				if (disk_is_dir($at)) {
+					$config = disk_file_get_contents($at . '/.git/config');
+					$value = explode('	url = ', $config)[1];
+					$value = explode(LINEFEED, $value)[0];
+					$tsv = $sheet->getValue($item, 'from');
+					if ($tsv == $value) {
+						$op[] = $heading . 'Values Match: ' . $value;
+					} else {
+						$hasIssues = true;
+						$op[] = $heading . '<u style="background-color: mistyrose; padding: 4px;">Values Don\'t Match:</u>' . BRNL . 'Tsv: ' . $tsv . BRNL . 'Cfg: ' . $value;
+					}
+				} else {
+					$op[] = $heading . 'Not Cloned - ' . $at;
+				}
+			}
+			if ($hasIssues)
+				echo implode(HRTAG . BRNL, $op);
+			else
+				echo '<u style="background-color: limegreen; padding: 4px;">All Ok. Repo Count: ' . count($sheet->rows) . '</u>';
+		}
+	}
+	echo tagUX::tagEnd(tagUX::Div);
 }
 
 function _pull_and_log($location) {
