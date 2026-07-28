@@ -114,6 +114,31 @@ function renderAny($file, $settings = []) {
 		return _renderImplementation($file, $settings);
 }
 
+class engageable {
+	const entire = '<!--engage-->';
+	const start = '<!--start-engage-->';
+	const noCB = '<!--engage-without-cb-->';
+
+	public $wants_engage = false;
+	public $wants_until_eof = false;
+
+	function parse(string $raw) {
+		$this->wants_engage = contains($raw, ' //engage-->')
+			|| contains($raw, self::entire);
+		$this->wants_until_eof = contains($raw, self::start);
+	}
+
+	function split($raw) {
+		$bits = explode(self::start, $raw);
+		$this->noContentBox = contains($raw, self::noCB);
+		$this->endContent = $bits[1];
+		return $bits[0];
+	}
+
+	public $noContentBox = false;
+	public $endContent = false;
+}
+
 //_ denotes its not to be called from outside - see flavours above + remove deprecated
 function _renderImplementation($fileOrRaw, $settings) {
 	$endsWithMd = BOOLNo;
@@ -171,7 +196,7 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 	$autop = $raw != '' && contains($raw, WANTSAUTOPARA);
 	$md = $raw != '' && ($raw[0] == '#' || startsWith($raw, WANTSMARKDOWN));
-	$engageContent = BOOLNo;
+	$engage = new engageable;
 
 	if ($rawVars = variable('rawReplaces'))
 		$raw = replaceItems($raw, $rawVars, '%');
@@ -189,20 +214,16 @@ function _renderImplementation($fileOrRaw, $settings) {
 		$output = $raw;
 	} else {
 		$inProgress = '<!--render-processing-->';
-		$engageSansCB = BOOLNo;
-		if (wants_engage_until_eof($raw)) {
-			$engageBits = explode(ENGAGESTART, $raw);
-			$engageSansCB = contains($raw, ENGAGESANSCB);
-			$raw = $engageBits[0];
-			$engageContent = $engageBits[1];
-		}
+		$engage->parse($raw);
+		if ($engage->wants_until_eof)
+			$raw = $engage->split($raw);
 
-		if (is_engage($raw) && !contains($raw, $inProgress)) {
+		if ($engage->wants_engage && !contains($raw, $inProgress)) {
 			features::ensureEngage();
 			$settings[VARUseContentBox] = BOOLNo;
 			$meta = $wasFile ? variable('meta_' . $fileName) : [];
 			$no = variable(VARNoContentBoxes);
-			variable(VARNoContentBoxes, $engageSansCB);
+			variable(VARNoContentBoxes, $engage->noContentBox);
 
 			if ($autop) $raw = wpautop($raw);
 			$raw = runAllMacros($raw);
@@ -241,18 +262,18 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 	if (valueIfSet($settings, VARUseContentBox, BOOLNo))
 		$output = cbWrapAndReplaceHr($output);
-	else
+	else if (!$engage->wants_engage)
 		$output = str_replace(HRTAG, cbCloseAndOpen('container'), $output);
 
 	if (!$noReplaces && isset($settings['heading'])) $output = variableOr('custom-heading', h2($settings['heading'], 'amadeus-heading amadeus-icon', BOOLYes)) . NEWLINES2 . $output;
 
-	if ($engageContent) {
+	if ($engage->endContent) {
 		features::ensureEngage();
 		$settings[VARUseContentBox] = BOOLNo;
 		$meta = $wasFile ? read_seo($fileName) : [];
 		$no = variable(VARNoContentBoxes);
-		variable(VARNoContentBoxes, $engageSansCB);
-		$output .= renderEngage(getPageName(), $engageContent . $inProgress . WANTSNOPARATAGS, BOOLNo, $meta);
+		variable(VARNoContentBoxes, $engage->noContentBox);
+		$output .= renderEngage(getPageName(), $engage->endContent . $inProgress . WANTSNOPARATAGS, BOOLNo, $meta);
 		variable(VARNoContentBoxes, $no);
 	}
 

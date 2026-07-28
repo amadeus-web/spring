@@ -35,7 +35,8 @@ if (isset($variables) && isset($variables['items'])) {
 } else {
 	echo tagUX::tagStart(tagUX::Div, cssUX::CenterContainer);
 	$check = getQueryParameter('check');
-	echo getLink('Check Clone Urls', './?check=1', 'btn btn-primary');
+	if (is_local())
+		echo getLink('Check Clone Urls', './?check=1', 'btn btn-primary');
 	if ($check) {
 		$files = _skipNodeFiles(scandir(__DIR__), 'md, php');
 		foreach ($files as $page) {

@@ -59,12 +59,6 @@ DEFINE('VARDontPrepareLinks', 'dont-prepare-links');
 DEFINE('VARWrapInSection', 'wrap-in-section');
 DEFINE('VARUseContentBox', 'use-content-box');
 
-DEFINE('ENGAGE', '<!--engage-->');
-DEFINE('ENGAGESTART', '<!--start-engage-->');
-DEFINE('ENGAGESANSCB', '<!--engage-without-cb-->');
-
-function is_engage($raw) { return contains($raw, ' //engage-->') || contains($raw, ENGAGE) || contains($raw, ENGAGESTART); }
-function wants_engage_until_eof($raw) { return contains($raw, ENGAGESTART); }
 function wants_md_in_parser($raw) { return contains($raw, '<!--markdown-when-processing-->'); }
 
 //12-macros.php
