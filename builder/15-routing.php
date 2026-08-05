@@ -48,11 +48,11 @@ function wants_only_content($ctaCheck = true) {
 }
 
 DEFINE('CDNAUTO', 'auto');
-DEFINE('CDNLIVESUBDOMAIN', 'cdn.');
 function setup_cdn($fol = CDNAUTO, $local = true, $live = true) {
 	define('ROOTCDNPATH', ALLSITESROOT . '_cdn/');
 	$cdn = 'https://cdn.joyfulearth.org/';
-	if ($fol == CDNAUTO) $fol = pathinfo(SITEPATH, PATHINFO_FILENAME) . '/';
+	if ($fol == CDNAUTO)
+		$fol = str_replace('\\', '/', substr(SITEPATH, strlen(ALLSITESROOT))) . '/';
 	if (is_local()) {
 		if ($local === false) return;
 		$cdn = 'http://localhost/_cdn/';

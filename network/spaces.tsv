@@ -1,0 +1,9 @@
+|is-table
+||cloneAt: networks/spaces/
+||renderWith: repos.php
+||Description: Spaces, Misions and Shops
+||Primary Keyword: Growth
+||Keywords: Growth and Healing, Spaces
+#at	from
+	https://github.com/joyfulearth/spaces.git
+purchase/books	https://github.com/joyfulearth/books.git
