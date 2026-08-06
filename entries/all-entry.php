@@ -32,12 +32,7 @@ include_once __DIR__ . '/../builder/1-entry.php';
 function enhanceAllSite(&$vars, $info) {
 	$subfolder = valueIfSet($info, 'subfolder', '');
 	if (!$subfolder) return;
-	$base = $info[(is_local() ? 'local-' : 'live-') . 'base'];
-	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . $info['name'] . '/';
-}
-
-function replaceSiteInfo($input, $name, $subfolder) {
-	return str_replace('%subfol%', $subfolder, str_replace('%site%', $name, $input));
+	setWildcardUrl($vars, $subfolder, $info);
 }
 
 runFrameworkFile('site/begin');
