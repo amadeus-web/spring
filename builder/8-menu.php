@@ -144,6 +144,11 @@ function menu($folderRelative = false, $settings = []) {
 		$filesGiven = true;
 	} else if ($givenFiles) {
 		$files = $givenFiles;
+		if (is_string(array_key_first($givenFiles))) {
+			$namesOfFiles = [];
+			foreach ($files as $name => $slug)
+				$namesOfFiles[$slug] = $name;
+		}
 		$filesGiven = true;
 	} else {
 		if (disk_file_exists($itemsTsv = $folder . '_menu-items.tsv')) {
@@ -350,11 +355,29 @@ function menu($folderRelative = false, $settings = []) {
 	echo $result;
 }
 
-function tsvSlugs($sheet) {
-	$items = getSheet($sheet, false);
-	$result = [];
-	foreach ($sheet->rows as $item)
-		$result[] = $sheet->getValue($item, 'slug');
+function tsvSlugs($sheetFile) {
+	$sheet = getSheet($sheetFile, false);
+	$result = []; $items = false; $lastName = false;
+	$sno = $sheet->hasColumn('sno');
+	$name = $sheet->hasColumn('name');
+	foreach ($sheet->rows as $item) {
+		$slug = $sheet->getValue($item, 'slug');
+		if (startsWith($slug, '~')) {
+			if ($items) $result[$lastName] = $items;
+			$items = [];
+			$lastName = substr($slug, 1);
+		} else if ($lastName) {
+			if ($sno && $name)
+				$items[$sheet->getValue($item, 'sno') . ' ' . $sheet->getValue($item, 'name')] = $slug;
+			else if ($sno)
+				$items[$sheet->getValue($item, 'sno') . ' ' . humanize($slug)] = $slug;
+			else
+				$items[] = $slug;
+		} else {
+			$result[] = $slug;
+		}
+	}
+	if ($items) $result[$lastName] = $items;
 	return $result;
 }
 

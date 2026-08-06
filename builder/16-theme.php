@@ -294,20 +294,25 @@ function setMenuSettings($after = false) {
 	]);
 }
 
+DEFINE('VARNoFooterWidgets', 'no-site-widgets');
+DEFINE('VARNoFooterSections', 'no-sections-in-footer');
+DEFINE('VARNoFooterNetwork', 'no-network-in-footer');
+DEFINE('VARNoFooterSocial', 'no-social-in-footer');
+
 function siteWidgets() {
-	if (variable('no-site-widgets')) return '';
+	if (variable(VARNoFooterWidgets)) return '';
 
 	$colsInUse = 0;
 
-	$showSections = variable(VARLinkToSectionHome) && !variable('no-sections-in-footer');
+	$showSections = variable(VARLinkToSectionHome) && !variable(VARNoFooterSections);
 	if ($showSections) $showSections = count($sections = variableOr('sections', []));
 	if ($showSections) $colsInUse += 1;
 
-	$showNetwork = !variable('no-network-in-footer') && variable('network');
+	$showNetwork = !variable(VARNoFooterNetwork) && variable('network');
 	if ($showNetwork) $showNetwork = count($sites = variableOr('networkSites', []));
 	if ($showNetwork) $colsInUse += 1;
 
-	$showSocial = !variable('no-social-in-footer');
+	$showSocial = !variable(VARNoFooterSocial);
 	if ($showSocial) $showSocial = count($social = variableOr(socialBuilder::variableName, main::defaultSocial()));
 	if ($showSocial) $colsInUse += 1;
 

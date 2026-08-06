@@ -12,6 +12,7 @@ if (isset($variables) && isset($variables['items'])) {
 
 	foreach ($items as $item) {
 		$gitUrl = $sheet->getValue($item, 'from');
+		$gitLink = getLink('git', str_replace('.git', '', $gitUrl), 'btn btn-outline-info me-2', true);
 		$location = $values['cloneAt'] . ($at = $sheet->getValue($item, 'at'));
 
 		$exists = disk_is_dir(ALLSITESROOT . $location);
@@ -22,10 +23,10 @@ if (isset($variables) && isset($variables['items'])) {
 				. ' ' . linkBuilder::factory('Relative Path', $location, linkBuilder::copyRelUrl);
 		}
 
-		$rel_r = implode(' &mdash; ', explode('/', $at == '' ? $values['cloneAt'] : $location));
+		$rel_r = implode(' / ', explode('/', $at == '' ? $values['cloneAt'] : $location));
 		$rows[] = [
-			'name' => humanize($rel_r),
-			'gitUrl' => $gitUrl,
+			'name' => $rel_r,
+			'gitUrl' => $gitLink  . $gitUrl,
 			'exists' => ($exists ? $yes : $no) . (!$exists ? ' &mdash; ' . _clone($location, $gitUrl) : ''),
 			'actions' => $exists && !$actions ? _pull_and_log($location) : $actions,
 		];

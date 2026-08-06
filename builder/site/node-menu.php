@@ -12,7 +12,7 @@ function renderNodeMenu() {
 	$hasFiles = variable(VARNodesHaveFiles); //yay now we support both sections with files & folders in same site
 	if (($order = NODEPATH . '/_menu-items.txt') && disk_file_exists($order))
 		$files = textToList(disk_file_get_contents($order));
-	else if ($order = str_replace('.txt', '.tsv', $order) && disk_file_exists($order))
+	else if (($order = str_replace('.txt', '.tsv', $order)) && disk_file_exists($order))
 		$files = tsvSlugs($order);
 	else
 		$files = _skipNodeFiles(disk_scandir(NODEPATH));
@@ -22,34 +22,43 @@ function renderNodeMenu() {
 	if (variable('link-to-node-home'))
 		echo '<li class="' . $itemClass . '"><a href="' . pageUrl(variable(SAFENODEVAR)) . '" class="' . $anchorClass . '">' . getHtmlVariable('nodeName') . '</a>';
 
-	foreach ($files as $page) {
-		if ($page == 'home') continue;
+	foreach ($files as $key => $page) {
+		$items = false;
+		$pageIf = '';
+		if (is_array($page)) {
+			$items = $page;
+			$page_r = $page = $key;
+		} else {
+			if ($page == 'home') continue;
+			$pageIf = $page . '/';
+			$page_r = humanize($page);
+		}
+
 		//if (cannot_access($slug)) continue;
-		$page_r = humanize($page);
 		$page_r = $wrapTextInADiv ? '<div>' . $page_r . '</div>' : $page_r;
 
-		$files = []; $tiss = false;
+		$tiss = false;
 		$standalones = variableOr('standalone-pages', []);
 		if (in_array($page, $standalones)) {
 			variable('page_parameter1_safe', $page);
 			$tiss = true;
 			$menuFile = concatSlugs([SITEPATH, variable('section'), variable(SAFENODEVAR), $page, 'menu.php']);
-			$files = disk_include($menuFile, ['callingFrom' => 'header-page-menu', 'limit' => 5]);
+			$items = disk_include($menuFile, ['callingFrom' => 'header-page-menu', 'limit' => 5]);
 			if ($tsmn = variable(getSectionKey($page, MENUNAME)))
 				$page_r = $tsmn;
 		}
 
 		$nodeIf = variable(SAFENODEVAR) ? variable(SAFENODEVAR) . '/' : '';
 
-		if (disk_is_dir(NODEPATH . '/' . $page)) {
+		if ($items || disk_is_dir(NODEPATH . '/' . $page)) {
 			echo '<li class="' . $itemClass . '"><a class="' . $anchorClass . '">' . $page_r . '</a>';
-			menu('/' . variable('section') . '/' . $nodeIf . $page . '/', [
+			menu('/' . variable('section') . '/' . $nodeIf . $pageIf, [
 				'link-to-home' => variable('link-to-sub-node-home'),
-				'files' => $files, 'this-is-standalone-section' => $tiss,
+				'files' => $items, 'this-is-standalone-section' => $tiss,
 				'ul-class' => $ulClass,
 				'li-class' => $itemClass,
 				'a-class' => $anchorClass,
-				'parent-slug' => $tiss ? '' : $nodeIf . $page . '/',
+				'parent-slug' => $tiss ? '' : $nodeIf . $pageIf,
 			]);
 		} else if ($hasFiles) {
 			echo '<li class="' . $itemClass . '"><a href="' . pageUrl(variable(SAFENODEVAR) . '/' . $page) . '" class="' . $anchorClass . '">' . $page_r . '</a>';
