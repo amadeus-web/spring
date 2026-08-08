@@ -599,6 +599,10 @@ class bootstrapAndUX extends builderBase {
 		return replaceItems($html, self::buttonVars());
 	}
 
+	static function colouredDiv($text, $color, $id) {
+		return tagUX::tag(tagUX::Div, 'my-1 p-2 bg-' . $color, $id, $text);
+	}
+
 	static function factory($yesColor, $noColor, $type = 'btn') {
 		if (!in_array($type, ['btn', 'btn-lg', 'btn-outline'])) throw new ErrorException(__METHOD__ . ' has unsupported $type: ' . $type); //dbc on the way in
 		return (new bootstrapAndUX())->setValue('yes', $yesColor)->setValue('no', $noColor)->setValue('type', $type);

@@ -4,7 +4,7 @@ class renderSET extends builderBase {
 
 	private $method, $pageId;
 
-	static function create($method = self:: default, $echo = BOOLYes, $pageId = null) {
+	static function create($method = self:: default, $echo = BOOLYes, $pageId = null) : renderSET {
 		$r = new renderSET();
 		$r->echo($echo);
 		$r->method = $method;
@@ -139,6 +139,56 @@ class engageable {
 	public $endContent = false;
 }
 
+class replacer extends builderBase {
+	const replaces = 'replaces';
+	const plainReplaces = 'plainReplaces';
+	const siteReplaces = 'siteReplaces';
+	const siteRawReplaces = 'siteRawReplaces';
+	const rawReplaces = 'rawReplaces';
+	const secondPassPlain = '2ndPassPlainReplaces';
+
+	private const known = [
+		self::replaces,
+		self::plainReplaces,
+		self::siteReplaces,
+		self::siteRawReplaces,
+		self::rawReplaces,
+		self::secondPassPlain,
+	];
+
+	private const vars = [
+		self::replaces => ['wrap' => WRAPREPLACE],
+		self::plainReplaces => ['wrap' => NOWRAPREPLACE],
+		self::siteReplaces => ['wrap' => WRAPREPLACE, 'array' => true],
+		self::siteRawReplaces => ['wrap' => NOWRAPREPLACE, 'array' => true],
+		self::rawReplaces => ['wrap' => WRAPREPLACE],
+		self::secondPassPlain => ['wrap' => NOWRAPREPLACE, 'second' => true],
+	];
+
+	private const site = [self::siteReplaces, self::siteRawReplaces];
+
+	function __construct($settings)
+	{
+		foreach (self::site as $name)
+			if (hasVariable($name))
+				$settings[$name] = variable($name);
+
+		foreach (self::known as $name) {
+			if (isset($settings[$name]))
+				$this->setValue($name, $settings[$name]);
+		}
+	}
+
+	function replaceAll($raw, $second = false) {
+		foreach ($this->settings as $name => $vars) {
+			$var = self::vars[$name];
+			if ($second != valueIfSet($var, 'second')) continue;
+			$raw = replaceItems($raw, $vars, $var['wrap'], valueIfSet($var, 'array'));
+		}
+		return $raw;
+	}
+}
+
 //_ denotes its not to be called from outside - see flavours above + remove deprecated
 function _renderImplementation($fileOrRaw, $settings) {
 	$endsWithMd = BOOLNo;
@@ -160,7 +210,7 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 		$endsWithMd = endsWith($fileOrRaw, '.md');
 		$raw = disk_file_get_contents($fileOrRaw);
-		$noReplaces = contains($raw, NOREPLACES);
+		$noReplaces = contains($raw, NOREPLACES); //html replaces
 	}
 
 	if (valueIfSet($settings, FIRSTSECTIONONLY)) {
@@ -178,8 +228,6 @@ function _renderImplementation($fileOrRaw, $settings) {
 
 	if (function_exists('site_render_content')) $raw = site_render_content($raw);
 
-	$replacesParams = valueIfSet($settings, 'replaces', []);
-	$plainReplaces = valueIfSet($settings, 'plainReplaces', []);
 	$builtinReplaces = [
 		'site-assets' => variable(assetKey(SITEASSETS)),
 		'site-assets-images' => variable(assetKey(SITEASSETS)) . 'images/',
@@ -187,19 +235,13 @@ function _renderImplementation($fileOrRaw, $settings) {
 		'spring-assets' => variable(assetKey(COREASSETS)),
 	];
 
-	$raw = replaceItems($raw, $replacesParams, WRAPREPLACE);
-	$raw = replaceItems($raw, $plainReplaces, NOWRAPREPLACE);
 	$raw = replaceItems($raw, $builtinReplaces, HASHREPLACE);
-
-	if ($svars = variable('siteReplaces')) $raw = replaceItems($raw, $svars, WRAPREPLACE, BOOLYes);
-	if ($svars = variable('siteRawReplaces')) $raw = replaceItems($raw, $svars, NOWRAPREPLACE, BOOLYes);
+	$replacer = new replacer($settings);
+	$raw = $replacer->replaceAll($raw);
 
 	$autop = $raw != '' && contains($raw, WANTSAUTOPARA);
 	$md = $raw != '' && ($raw[0] == '#' || startsWith($raw, WANTSMARKDOWN));
 	$engage = new engageable;
-
-	if ($rawVars = variable('rawReplaces'))
-		$raw = replaceItems($raw, $rawVars, '%');
 
 	if (contains($raw, $secureSeparator = '<!--secure-page-->')) {
 		if (!function_exists('is_page_secure')) {
@@ -244,8 +286,7 @@ function _renderImplementation($fileOrRaw, $settings) {
 		$output = replaceHtml($output);
 	}
 
-	if ($plainReplaces2 = valueIfSet($settings, '2ndPassPlainReplaces'))
-		$output = replaceItems($output, $plainReplaces2, NOWRAPREPLACE);
+	$output = $replacer->replaceAll($output, BOOLYes);
 
 	if (!$noReplaces && !isset($settings[VARDontPrepareLinks]))
 		$output = prepareLinks($output); //if doing before markdown then this gets messed up

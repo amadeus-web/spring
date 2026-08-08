@@ -42,7 +42,7 @@ function renderEngage($name, $raw, $echo = true, $meta = [], $settings = []) {
 		$replaces[VARWhatsapp] = getHtmlVariable(VARWhatsapp) . getHtmlVariable('enquiry');
 	}
 
-	$result .= renderMarkdown($raw, ['replaces' => $replaces, 'echo' => false]);
+	$result .= renderMarkdown($raw, [replacer::replaces => $replaces, 'echo' => false]);
 
 	$result .= getSnippet('engage-toolbox', CORESNIPPET);
 	

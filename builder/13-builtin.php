@@ -171,7 +171,7 @@ function renderSheetAsDeck($deck, $link) {
 
 function __parseDeck($deck) {
 	$hrWith = NEWLINE . '</section><section>' . NEWLINE;
-	$deck = renderMarkdown($deck, [ 'echo' => false, VARStripParagraphTag => true, 'plainReplaces' => ['---' => $hrWith]]);
+	$deck = renderMarkdown($deck, [ 'echo' => false, VARStripParagraphTag => true, replacer::plainReplaces => ['---' => $hrWith]]);
 	return $deck;
 }
 
