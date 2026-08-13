@@ -7,7 +7,7 @@ DEFINE('NEWLINES2', NEWLINE . NEWLINE);
 
 if ($raw = valueIfSetAndNotEmpty($_GET, 'raw')) { echo $raw; return; }
 
-$palette = $fonts = $_GET;
+$vars = $palette = $fonts = $_GET;
 
 $moreVars = [''];
 if ($menuColor = valueIfSetAndNotEmpty($palette, 'sticky-menu'))
@@ -55,7 +55,7 @@ $content = _color($palette, 'content', 'e9f2ff');
 
 echo replaceItems($op, [
 	'header' => _color($palette, 'header', 'no'),
-	'sticky-header' => $content ? $content : '#fff',
+	'sticky-header' => _color($palette, 'sticky-header', 'fff'),
 	'footer' => _color($palette, 'footer', '999'),
 	'body' => _color($palette, 'body', 'bee6f9'),
 	'link' => _color($palette, 'link', '30B1D4'),
@@ -76,6 +76,8 @@ if ($contentFont)
 	echo '#content, #content h1, #content h2, #content h3 { font-family: "' . urldecode($contentFont) . '", sans-serif; }' . NEWLINES2;
 
 if ($cursive) echo '.cursive:not(.plain-font) { font-family: "' . $cursive . '", serif; }' . NEWLINES2;
+
+if (valueIfSet($vars, 'slim')) echo '.header-wrap-clone { height: 54px; }' . NEWLINES2;
 
 if ($menu) {
 	$menuSize = valueIfSetAndNotEmpty($fonts, 'menu-size');

@@ -122,7 +122,12 @@ class engageable {
 	public $wants_engage = false;
 	public $wants_until_eof = false;
 
-	function parse(string $raw) {
+	function parse(string &$raw, array $settings) {
+		if (valueIfSet($settings, VARExcerpt)) {
+			$raw = replaceItems($raw, [VAREngageNote => '', VAREngageNoteAbove => ''], WRAPREPLACE);
+			return;
+		}
+
 		$this->wants_engage = contains($raw, ' //engage-->')
 			|| contains($raw, self::entire);
 		$this->wants_until_eof = contains($raw, self::start);
@@ -256,7 +261,7 @@ function _renderImplementation($fileOrRaw, $settings) {
 		$output = $raw;
 	} else {
 		$inProgress = '<!--render-processing-->';
-		$engage->parse($raw);
+		$engage->parse($raw, $settings);
 		if ($engage->wants_until_eof)
 			$raw = $engage->split($raw);
 

@@ -108,11 +108,13 @@ function runThemePart($what) {
 
 		//TODO: icon link to node home, should have 2nd menu & back to home
 		$baseUrl = hasVariable(VARNodeSafeName) && !variable(VARDontOverwriteLogo) ? pageUrl(nodeValue()) : pageUrl();
-		$logo2x = getLogoOrIcon('logo', 'node');
-		$vars['logo'] = concatSlugs(['<a href="', $baseUrl . variableOr('nodeChildSlug', ''), '">' . NEWLINE
-			. '								<img src="', $logo2x, '" class="img-fluid img-max-',
-			variableOr('footer-logo-max-width', '500'), '" alt="', variableOr(VARNodeSiteName, variable('name')), '">' . NEWLINE
-			. '							</a><br>'], '');
+		$baseName = variableOr(VARNodeSiteName, variable('name'));
+		$indent = '							';
+		$imgOrText = mediakit::getVar(mediakit::noLogo) ? $baseName : concatStrings('',
+			$indent, '	<img src="', getLogoOrIcon('logo', 'node'), '" class="img-fluid img-max-',
+			variableOr('footer-logo-max-width', '500'), '" alt="', $baseName, '">');
+		$vars['logo'] = replaceItems($indent . '<a href="%url%">%inner%</a>' . BRNL,
+			['url' => $baseUrl . variableOr('nodeChildSlug', ''), 'inner' => $imgOrText], WRAPREPLACE);
 
 		$vars['optional-page-css'] = [];
 		$vars['optional-page-menu'] = _page_menu($siteIcon, $nodeIcon);
@@ -344,7 +346,7 @@ function siteWidgets() {
 		$brYes = _useAltFooterDesign() ? NEWLINE : BRNL;
 		foreach ($sites as $ix => $site)
 			$op[] = is_string($site) ? ($ix > 0 ? BRNL : '') . '<u class="m-1 ms-3">' . substr($site, 1) . '</u>'
-				: getLink('<img src="' . $site[$urlKey] . $site['key'] . '-icon.png" height="28" class="me-2" /> ' . $site['name'], $site[$urlKey],
+				: getLink('<img src="' . valueIfSet($site, VARWildcardUrl, $site[$urlKey]) . $site['key'] . '-icon.png" height="28" class="me-2" /> ' . $site['name'], $site[$urlKey],
 					'btn bg-light btn-outline-success m-1', true) . $brYes;
 		$op[] = '</div>'; $op[] = '';
 	}

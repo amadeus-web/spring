@@ -188,3 +188,21 @@ function styles_and_scripts() {
 	if (variable(VARMediakit))
 		cssTag(getSiteUrl(SITESPRING) . 'assets/mediakit.php' . variable(VARMediakit));
 }
+
+class mediakit {
+	const vars = 'mediakit-vars';
+	const noLogo = ['name' => 'no-logo', 'type' => TYPEBOOLEAN];
+
+	static function setVars($op) {
+		$qs = valueIfSet($op, VARMediakit, '');
+		if (startsWith($qs, '?')) $qs = substr($qs, 1); 
+		$mk = [];
+		parse_str($qs, $mk);
+		variable(self::vars, $mk);
+	}
+
+	static function getVar(array $var) {
+		return valueIfSetAndNotEmpty(variableOr(self::vars, []), $var['name'],
+			valueIfSet($var, 'default'), valueIfSet($var,'type', TYPENOCHANGE));
+	}
+}

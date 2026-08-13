@@ -100,6 +100,8 @@ function _visane($siteVars) {
 	if ($op[VARFonts])
 		$op[VARMediakit] .= '&' . $op[VARFonts];
 
+	mediakit::setVars($op);
+
 	__testSiteVars($op);
 	variables($op);
 

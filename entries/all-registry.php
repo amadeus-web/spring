@@ -18,7 +18,7 @@ DEFINE('ALLREGISTRY', [
 		'live' => 'https://%site%.joyfulearth.org/',
 		'local-base' => 'http://localhost/%subfol%/',
 		'live-base' => 'https://%subfol%.joyfulearth.org/',
-		'subfolders' => ['us', 'initiatives', 'networks', 'people', 'sites', 'ngos', 'families', 'businesses'],
+		'subfolders' => ['us', 'sunlight', 'networks', 'people', 'sites', 'ngos', 'families', 'businesses'],
 	],
 	/*
 	'common-planet' => [

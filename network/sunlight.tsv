@@ -1,0 +1,9 @@
+|is-table
+||cloneAt: sunlight/
+||renderWith: repos.php
+||Description: AW at Work - Evolving Sunlight
+||Primary Keyword: Work
+||Keywords: Professional Development, Corporate Counseling, Learn, Develop, GHS at Work
+#at	from
+last-resort	https://github.com/joyfulearth/last-resort.git
+work	https://github.com/joyfulearth/work.git
