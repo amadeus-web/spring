@@ -60,7 +60,7 @@ function renderExcerpt($file, $link, $prefix = '', $echo = BOOLYes) {
 
 	$text = disk_file_exists($file) ? disk_file_get_contents($file) : $file;
 	$hasMoreTag = contains($text, MORETAG);
-	if (!$hasMoreTag && $meta && isset($meta['excerpt']))
+	if (!$hasMoreTag && $meta && isset($meta['excerpt']) && $meta['excerpt'])
 		$raw = returnLine($meta['excerpt']);
 	else
 		$raw = renderSET::create(renderSET::default, BOOLNo)->markdown()->excerpt()->render($text);
