@@ -8,6 +8,7 @@ us/imran
 us/goodness
 us/archives
 
-~Showcase
-for/vidya/awakentolife
-for/vidya/vidyantara
+~Channels
+sunlight/work
+sunlight/serenity
+sunlight/symphony
