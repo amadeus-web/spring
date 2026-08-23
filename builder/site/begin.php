@@ -1,11 +1,6 @@
 <?php
 getSiteUrlKey(); //get only needed for testing which should come soon
 
-function __testSiteVars($array) {
-	return; //comment to test
-	print_r($array);
-}
-
 $sheet = getSheet('site', false);
 $cols = $sheet->columns;
 
@@ -102,7 +97,6 @@ function _visane($siteVars) {
 
 	mediakit::setVars($op);
 
-	__testSiteVars($op);
 	variables($op);
 
 	variable(assetKey(THEMEASSETS), getThemeBaseUrl());
@@ -123,7 +117,6 @@ function _always($siteVars) {
 
 	$op['start_year'] = $siteVars[VARYear];
 
-	__testSiteVars($op);
 	variables($op);
 }
 
@@ -141,8 +134,6 @@ variables($op = [
 	'assets-url' => $url,
 	'page-url' => scriptSafeUrl($url),
 ]);
-
-__testSiteVars($op);
 
 runFrameworkFile('site/network');
 runFrameworkFile('site/cms');

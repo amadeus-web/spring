@@ -14,42 +14,37 @@ function network_menu($renderFn = false) {
 
 	$urlKey = _getUrlKeySansPreview();
 
+	disk_include_once(AMADEUSSITEROOT . '/entries/all-registry.php');
+
 	$all = [];
-	if (!$wantsRender) $all[] = getSiteInfo('msa/ad/aurodawns', $urlKey);
-	$all[] = getSiteInfo('joyfulearth', $urlKey);
+	if ($wantsRender || true) siteEntry::remove(siteEntry::aurodawns);
+	foreach (siteEntry::$all as $key => $item) {
+		$fol = $item->folder . $item->mainSites[0];
+		if (!disk_is_dir(ALLSITESROOT . $fol)) {
+			siteEntry::remove($key);
+			continue;
+		} 
+		$all[] = getSiteInfo($fol, $urlKey);
+	}
 	$items = ['DAWN' => $all];
 
-	$skipRest = false; $skipAfterFor = ['vidya'];
-
-	$linuxPath = str_replace('\\', '/', SITEPATH);
-	if (contains($linuxPath, '/for/')) {
-		$slug = explode('/for/', $linuxPath)[1];
-		$slug = explode('/', $slug)[0];
-		$items[] = MENUSEPARATOR;
-		$items[humanize($slug)] = setupNetwork('for/' . $slug);
-		$skipRest = in_array($slug, $skipAfterFor);
-	}
-
-	disk_include_once(AMADEUSSITEROOT . '/entries/all-registry.php');
-	$domains = $skipRest ? [] : ALLREGISTRY;
-	if ($wantsRender) unset($domains['aurodawns']);
-	foreach ($domains as $domain) {
-		$fol = $domain['folder'];
+	foreach (siteEntry::$all as $item) {
+		$fol = $item->folder;
 		if (!is_dir(ALLSITESROOT . $fol)) continue;
 
 		$these = [];
-		foreach ($wantsRender ? [] : $domain['main'] as $slug) {
+		foreach ($wantsRender ? [] : $item->mainSites as $slug) {
 			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
 			$these[] = getSiteInfo($fol . $slug, $urlKey);
 		}
 
 		if (!$wantsRender)
 			$items[] = MENUSEPARATOR;
-		$items[$domain['heading']] = $these;
+		$items[$item->heading] = $these;
 
-		foreach ($domain['subfolders'] as $slug) {
+		foreach ($item->subFolders as $slug) {
 			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
-			$items[humanize($slug)] = setupNetwork($fol . $slug, $slug, $domain);
+			$items[humanize($slug)] = setupNetwork($fol . $slug, $slug, $item);
 		}
 	}
 
@@ -59,7 +54,7 @@ function network_menu($renderFn = false) {
 		twoLevelMenu($items, NETWORKABBR);
 }
 
-function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, $domainInfo = false) {
+function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, siteEntry | bool $site = false) {
 	$networkSites = [];
 
 	$networkName = variable(VARNetwork);
@@ -99,8 +94,8 @@ function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, $
 
 		$bits = explode('/', $key);
 		$leafKey = array_pop($bits);
-		if ($subfolder && $domainInfo)
-			setWildcardUrl($item, $subfolder, $domainInfo, $leafKey);
+		if ($subfolder && $site)
+			setWildcardUrl($item, $subfolder, $site, $leafKey);
 
 		if ($hasNode && $node = $sheet->getValue($row, 'node')) {
 			$item[$urlKey] .= $node . '/';

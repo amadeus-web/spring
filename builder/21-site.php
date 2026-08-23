@@ -72,9 +72,9 @@ function getUrlFrom($relativePath, $urlKey = false) {
 	return $result[$urlKey];
 }
 
-function setWildcardUrl(&$vars, $subfolder, $info, $key = '--not-set--') {
-	$base = $info[(is_local() ? 'local-' : 'live-') . 'base'];
-	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . valueIfSet($info, 'name', $key) . '/';
+function setWildcardUrl(&$vars, $subfolder, siteEntry $info, $key = '--not-set--') {
+	$base = is_local() ? $info->localBase : $info->liveBase;
+	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . siteEntry::$currentName . '/';
 }
 
 function replaceSiteInfo($input, $name, $subfolder) {
