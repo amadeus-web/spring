@@ -234,10 +234,10 @@ function _renderImplementation($fileOrRaw, $settings) {
 	if (function_exists('site_render_content')) $raw = site_render_content($raw);
 
 	$builtinReplaces = [
-		'site-assets' => variable(assetKey(SITEASSETS)),
-		'site-assets-images' => variable(assetKey(SITEASSETS)) . 'images/',
+		'site-assets' => assetManager::get(assetManager::site),
+		'site-assets-images' => assetManager::get(assetManager::site) . 'images/',
 		'spring' => getSiteUrl(SITESPRING),
-		'spring-assets' => variable(assetKey(COREASSETS)),
+		'spring-assets' => assetManager::get(assetManager::core),
 	];
 
 	$raw = replaceItems($raw, $builtinReplaces, HASHREPLACE);

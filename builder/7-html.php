@@ -165,12 +165,12 @@ function replaceHtml($html) {
 
 			'%node-assets%' => _resolveFile('', STARTATNODE),
 			'%section-assets%' => _resolveFile('', STARTATSECTION),
-			'%site-base%' => variableOr(VARWildcardUrl, variable('assets-url')),
+			'%site-base%' => $assetsUrl = variableOr(VARWildcardUrl, variable('assets-url')),
 			'%site-assets%' => _resolveFile('', STARTATSITE),
 			'%core-assets%' => _resolveFile('', STARTATCORE),
 			'##theme##' => getThemeBaseUrl(),
 
-			'%cdn%' => variableOr('cdn', variable(variable('is-mobile') || variable('live-cdn') ? 'live-url' : 'assets-url') . 'assets/cdn/'),
+			'%cdn%' => variableOr('cdn', ((variable('is-mobile') || variable('live-cdn')) ? variable('live-url') : $assetsUrl) . 'assets/cdn/'),
 
 			'%currentUrl%' => currentUrl(),
 			'%nodeSlug%' => $node,
@@ -183,7 +183,7 @@ function replaceHtml($html) {
 			'%nodeItem3%' => $ni = getPageParameterAt(3, ''),
 			'%nodeItem3_r%' => humanize($ni),
 			'%nodeFullUrl%' => pageUrl(variableOr('nodeSlug', '##no-nodeSlug')),
-			'%leafNodeAssets%' => variableOr(assetKey(LEAFNODEASSETS), ''),
+			'%leafNodeAssets%' => assetManager::get(assetManager::leafNode),
 
 			'%email%' => variableOr(VAREmail, ''),
 			'%email2%' => variableOr(VAREmail2, ''),
@@ -288,6 +288,7 @@ function replaceHtmlShortcuts($output) {
 class tagUX {
 	const HorizontalRule = 'hr';
 	const Div = 'div';
+	public const orientations = ['portrait', 'landscape'];
 
 	static function selfClosetag($name, $classes, $attributes = []) {
 		$attrs = '';
@@ -372,6 +373,7 @@ class cssUX {
 	const container = 'container';
 	const standout = 'standout';
 	const pt4 = 'pt-4';
+	const m1 = 'm-1';
 	const m2 = 'm-2';
 	const mauto = 'm-auto';
 

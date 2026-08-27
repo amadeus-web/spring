@@ -21,7 +21,7 @@ $fontFamily = '';
 
 includeThemeManager();
 $css = $key != 'canvas' ? CanvasTheme::IconsFor($key) : CanvasTheme::ReincludeIcons();
-addStyle($css, THEMEASSETS);
+addStyle($css, assetManager::theme);
 
 if ($key != 'canvas')
 	$fontFamily = 'font-family: ' . $key . '!important; '; //else gets overridden

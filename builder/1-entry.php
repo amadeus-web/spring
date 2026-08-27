@@ -130,8 +130,8 @@ function before_bootstrap() {
 	//NOTE: no more self hosted. //TODO: HI: allow
 	variable('app-themes', $spring . 'themes/');
 
-	variable(assetKey(COREASSETS, ASSETFOLDER), AMADEUSROOT . 'assets/');
-	variable(assetKey(COREASSETS), $spring . 'assets/');
+	assetManager::set(assetManager::core . assetManager::folderSuffix, AMADEUSROOT . 'assets/');
+	assetManager::set(assetManager::core, $spring . 'assets/');
 
 	$php = contains($_SERVER['DOCUMENT_ROOT'], 'magique') || contains($_SERVER['DOCUMENT_ROOT'], 'Magique');
 	variable('is-mobile', $isMobile || $php);

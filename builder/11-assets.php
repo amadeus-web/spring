@@ -48,47 +48,73 @@ function title($what = 'default') {
 	return implode($forHeading ? ' &mdash;&gt; ' : ' &lt; ', $result) . ($forHeading ? '' : ' | ' . variable('name'));
 }
 
-//locations
-DEFINE('SECTIONASSETS', 'SECTION');
-DEFINE('LEAFNODEASSETS', 'LEAFNODE');
-DEFINE('NODEASSETS', 'NODE');
-DEFINE('NETWORKASSETS', 'NETWORK');
-DEFINE('SITEASSETS', 'SITE');
-DEFINE('COREASSETS', 'CORE');
-DEFINE('THEMEASSETS', 'THEME');
+class assetManager {
+	private const prefix = 'AssetOf_';
 
-DEFINE('ASSETFOLDER', '-folder');
+	//locations
+	const section = 'Section';
+	const leafNode = 'LeafNode';
+	const node = 'Node';
+	const network = 'Network';
+	const site = 'Site';
+	const core = 'Core';
+	const theme = 'Theme';
 
-function assetKey($type, $suffix = '') {
-	return 'ASSETSOF' . $type . $suffix;
-}
+	const folderSuffix = '_Folder';
 
-function assetMeta($location = SITEASSETS, $setValueOr = false) {
-	$key = '__assetmanager_meta_' . $location; //cache it to prevent long manipulations/file reads below
+	private static $hierarchy = [];
 
-	if (is_array($setValueOr)) {
-		variable($key, $setValueOr);
-		return;
+	public static function getHierarchy() {
+		if (!count(self::$hierarchy))
+			self::$hierarchy = [self::section, self::node, self::network, self::site, self::core];
+		return self::$hierarchy;
 	}
 
-	//dont do early return as get could be for one item of array alone
-	if (!($result = variable($key))) {
-		$mainFol = variable(assetKey($location, ASSETFOLDER));
-		$versionFile = $mainFol . '_version.txt';
-		$version = disk_file_exists($versionFile) ? '?' . disk_file_get_contents($versionFile) : '';
-
-		$result = ['location' => variable(assetKey($location)), 'version' => $version];
-
-		//print_r($result); debug_print_backtrace();
-		variable($key, $result);
+	static function set($key, $val) {
+		variable(self::prefix . $key, $val);
 	}
 
-	if ($setValueOr == 'version')
-		return $result['version'];
-	//TODO: not yet implemented for url!
+	static function get($key) {
+		return variableOr(self::key($key), '');
+	}
 
-	return $result;
+	static function has($key) {
+		return hasVariable(self::key($key));
+	}
+
+	private static function key($key, $suffix = '') {
+		return self::prefix . $key . $suffix;
+	}
+
+	static function meta($location = assetManager::site, $setValueOr = false) {
+		$key = '__assetmanager_meta_' . $location; //cache it to prevent long manipulations/file reads below
+
+		if (is_array($setValueOr)) {
+			variable($key, $setValueOr);
+			return;
+		}
+
+		//dont do early return as get could be for one item of array alone
+		if (!($result = variable($key))) {
+			$mainFol = variable(assetManager::key($location, assetManager::folderSuffix));
+			$versionFile = $mainFol . '_version.txt';
+			$version = disk_file_exists($versionFile) ? '?' . disk_file_get_contents($versionFile) : '';
+
+			$result = ['location' => assetManager::get($location), 'version' => $version];
+
+			//print_r($result); debug_print_backtrace();
+			variable($key, $result);
+		}
+
+		if ($setValueOr == 'version')
+			return $result['version'];
+		//TODO: not yet implemented for url!
+
+		return $result;
+	}
 }
+
+DEFINE('COREASSETS', 'Core'); //TODO: HI: remove this alias for assetManager::core
 
 //what == logo | icon
 //which = site | node (falls back to site)
@@ -103,7 +129,7 @@ function getLogoOrIcon($what, $which = 'site') {
 	if (is_array($which) && !$site) {
 		$inNode = true;
 		$name = $which[VARNodeSafeName] . $suffix;
-		$where = $which[assetKey(NODEASSETS)];
+		$where = $which[assetManager::node];
 	} else {
 		$inNode = $which == 'node' && !$site && hasVariable(VARNodeSafeName) && DEFINED('NODEPATH');
 		$name = variableOr($inNode ? VARNodeSafeName : VARSafeName, 'amadeusweb9') . $suffix; //TODO: update when major version changes
@@ -122,8 +148,8 @@ DEFINE('STARTATCORE', 4);
 
 function _resolveFile($file, $where = 0, $includeAssets = true) {
 	if (is_integer($where)) {
-		$hierarchy = [SECTIONASSETS, NODEASSETS, NETWORKASSETS, SITEASSETS, COREASSETS];
-		while (true) { if (hasVariable( assetKey($hierarchy[$where]))) break; else $where++; }
+		$hierarchy = assetManager::getHierarchy();
+		while (true) { if (assetManager::has($hierarchy[$where])) break; else $where++; }
 		$result = assetUrl($file, $hierarchy[$where]);
 	} else {
 		$result = $where . $file;
@@ -136,10 +162,11 @@ function assetUrl($file, $location) {
 	if (startsWith($file, 'http') || startsWith($file, '//'))
 		showDebugging('ASSETMANAGER: direct urls not supported in beta', $file, true, true);
 
-	$meta = assetMeta($location);
+	$meta = assetManager::meta($location);
 	$match = $meta['location'];
-	if ($location == SITEASSETS && hasVariable(VARWildcardUrl))
-		$match = variable(VARWildcardUrl);
+	if (hasVariable(VARWildcardUrl))
+		$match = str_replace(variable('assets-url'), variable(VARWildcardUrl), $match);
+
 	return $match . $file . (contains($file, '.') ? $meta['version'] : '');
 }
 
@@ -155,11 +182,11 @@ function add3pScript($url) {
 	$array = variable('3pScripts'); $array[] = $url; variable('3pScripts', $array);
 }
 
-function addStyle($name, $location = SITEASSETS) {
+function addStyle($name, $location = assetManager::site) {
 	_addAssets($name, $location, 'styles');
 }
 
-function addScript($name, $location = SITEASSETS) {
+function addScript($name, $location = assetManager::site) {
 	_addAssets($name, $location, 'scripts');
 }
 

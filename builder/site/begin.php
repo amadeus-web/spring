@@ -30,8 +30,8 @@ if (contains($url = $siteVars[variable(SITEURLKEY)], 'localhost'))
 
 if (hasPageParameter('health')) die('<span style="background-color: #cbfecb; padding: 10px;">Works!: ' . $url . '</span>');
 
-variable(assetKey(SITEASSETS, ASSETFOLDER), SITEPATH . '/assets/');
-variable(assetKey(SITEASSETS), $url . 'assets/');
+assetManager::set(assetManager::site . assetManager::folderSuffix, SITEPATH . '/assets/');
+assetManager::set(assetManager::site, $url . 'assets/');
 
 function parseSectionsAndGroups($siteVars, $return = false, $forNetwork = false) {
 	if (variable('sections') && !$forNetwork) return;
@@ -99,7 +99,7 @@ function _visane($siteVars) {
 
 	variables($op);
 
-	variable(assetKey(THEMEASSETS), getThemeBaseUrl());
+	assetManager::set(assetManager::theme, getThemeBaseUrl());
 }
 
 function _always($siteVars) {

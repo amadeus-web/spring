@@ -182,7 +182,7 @@ function autoSetNode($level, $where, $overrides = []) {
 
 	$vars = array_merge([
 		'nodeSlug' => $relPath,
-		assetKey(NODEASSETS) => fileUrl($section . '/' . nodeValue() . '/assets/'),
+		assetManager::node => fileUrl($section . '/' . nodeValue() . '/assets/'),
 		VARNodeSiteName => humanize($endSlug),
 		VARNodeSafeName => $prefix . $endSlug,
 		VARSubmenuAtNode => true,
@@ -220,7 +220,7 @@ function ensureNodeVar() {
 		$vars = variable('NodeVarsAt' . end($indices));
 		variables($vars);
 		$slug = $vars['nodeSlug'];
-		variable(assetKey(LEAFNODEASSETS), $vars[assetKey(NODEASSETS)]); //assume required as its always set above
+		assetManager::set(assetManager::leafNode, $vars[assetManager::node]); //assume required as its always set above
 		DEFINE('NODEPATH', $vars['nodepath']);
 	} else {
 		$slug = nodeValue();
