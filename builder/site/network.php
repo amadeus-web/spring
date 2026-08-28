@@ -1,6 +1,5 @@
 <?php
-DEFINE('NETWORKDEFINEDAT', DEFINED('NETWORKPATH') ? NETWORKPATH . '/' : AMADEUSSITEROOT . 'data/');
-DEFINE('NETWORKNAME', '~JoyfulEarth\'s ');
+DEFINE('NETWORKDEFINEDAT', DEFINED('NETWORKPATH') ? NETWORKPATH . '/' : AMADEUSSITEDATA);
 DEFINE('NETWORKABBR', 'DAWN');
 
 setupNetwork();
@@ -14,21 +13,15 @@ function network_menu($renderFn = false) {
 
 	$urlKey = _getUrlKeySansPreview();
 
-	disk_include_once(AMADEUSSITEROOT . '/entries/all-registry.php');
+	domain::includeAll();
 
 	$all = [];
-	if ($wantsRender || true) siteEntry::remove(siteEntry::aurodawns);
-	foreach (siteEntry::$all as $key => $item) {
-		$fol = $item->folder . $item->mainSites[0];
-		if (!disk_is_dir(ALLSITESROOT . $fol)) {
-			siteEntry::remove($key);
-			continue;
-		} 
-		$all[] = getSiteInfo($fol, $urlKey);
-	}
+	foreach (domain::$all as $item)
+		$all[] = getSiteInfo($item->mainSites[0], $urlKey);
+
 	$items = ['DAWN' => $all];
 
-	foreach (siteEntry::$all as $item) {
+	foreach (domain::$all as $item) {
 		$fol = $item->folder;
 		if (!is_dir(ALLSITESROOT . $fol)) continue;
 
@@ -54,7 +47,7 @@ function network_menu($renderFn = false) {
 		twoLevelMenu($items, NETWORKABBR);
 }
 
-function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, siteEntry | bool $site = false) {
+function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, domain | bool $site = false) {
 	$networkSites = [];
 
 	$networkName = variable(VARNetwork);

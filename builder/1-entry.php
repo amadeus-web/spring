@@ -16,6 +16,7 @@
 
 DEFINE('AMADEUSROOT', dirname(__DIR__) . DIRECTORY_SEPARATOR);
 DEFINE('AMADEUSSITEROOT', dirname(__DIR__, 1) . DIRECTORY_SEPARATOR);
+	DEFINE('AMADEUSSITEDATA', AMADEUSSITEROOT . 'data/');
 DEFINE('ALLSITESROOT', dirname(AMADEUSROOT) . DIRECTORY_SEPARATOR);
 DEFINE('AMADEUSTHEMESFOLDER', AMADEUSROOT . 'themes/');
 
@@ -90,6 +91,9 @@ runFrameworkFile('20-social-builder');
 
 //New in v9.4
 runFrameworkFile('21-site');
+
+//New in v9.7
+runFrameworkFile('22-domain');
 
 class features {
 	const blurbs = 'blurbs';
