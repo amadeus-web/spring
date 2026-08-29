@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . '/../entry.php';
 domain::includeAll();
 
 $name = isset($_GET['name']) ? $_GET['name'] : explode('.', $_SERVER['HTTP_HOST'])[0];

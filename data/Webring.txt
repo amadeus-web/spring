@@ -1,14 +1,7 @@
 ~Core
-joyfulearth
 spring
-us/ganymede
+joyfulearth/ours/imran
 
-~Us
-us/imran
-us/goodness
-us/archives
-
-~Channels
-sunlight/work
-sunlight/serenity
-sunlight/symphony
+~Networks
+joyfulearth/www
+awakentolife/www

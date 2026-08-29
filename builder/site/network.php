@@ -13,8 +13,6 @@ function network_menu($renderFn = false) {
 
 	$urlKey = _getUrlKeySansPreview();
 
-	domain::includeAll();
-
 	$all = [];
 	foreach (domain::$all as $item)
 		$all[] = getSiteInfo($item->mainSites[0], $urlKey);
@@ -27,8 +25,8 @@ function network_menu($renderFn = false) {
 
 		$these = [];
 		foreach ($wantsRender ? [] : $item->mainSites as $slug) {
-			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
-			$these[] = getSiteInfo($fol . $slug, $urlKey);
+			if (!is_dir(ALLSITESROOT . $slug)) continue;
+			$these[] = getSiteInfo($slug, $urlKey);
 		}
 
 		if (!$wantsRender)

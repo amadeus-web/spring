@@ -14,10 +14,18 @@ class domain {
 	 */
 	static $all = [];
 
+	/**
+	 * @var domain Current domain
+	 */
+	static $current;
+
 	static function add(string $key, string $folder, bool $skipIfNotMatching, domain $item) {
 		$match = contains($folder, $key); //doesnt handle substring collision
 		if ($skipIfNotMatching && !$match) return;
-		if ($match) DEFINE('NETWORKPATH', $folder);
+		if ($match && !DEFINED('NETWORKPATH')) {
+			self::$current = $item;
+			DEFINE('NETWORKPATH', $folder);
+		}
 		self::$all[$key] = $item;
 	}
 
@@ -30,6 +38,8 @@ class domain {
 
 	public string $currentSubfolder = '';
 
+	public string $key;
+
 	public string $folder;
 	public string $heading;
 	public string $local;
@@ -41,6 +51,7 @@ class domain {
 
 	public function __construct(array $vars, array $mainSites, $subFolders = []) {
 		$this->folder = $vars['folder'];
+		$this->key = removeSlash($this->folder, 'end');
 		$this->heading = $vars['heading'];
 		$this->local = $vars['local'];
 		$this->live = $vars['live'];
