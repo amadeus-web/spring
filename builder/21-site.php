@@ -23,9 +23,9 @@ function getSpecialUrl($name) {
 	if ($name == 'root')
 		return getSiteUrl(SITEROOT);
 	else if ($name == 'signup')
-		return getSiteUrl(SITESPRING, NODEOPUS . '/services/signup/');
+		return getSiteUrl(SITEROOT, 'services/signup/');
 	else if ($name == 'smithy')
-		return getSiteUrl(SITESPRING, NODESMITHY . '/');
+		return getSiteUrl(SITESPRING, NODEINTRODUCTION . '/');
 	else throw new Error('Unknown SpecialUrl: ' . $name);
 }
 
@@ -102,7 +102,7 @@ function getSiteInfo($relativePath, $urlKey = false, domain $domain = null) : si
 	if ($domain) $site->setWildcardUrl($domain);
 
 	if ($urlKey) addNetworkUrl($relativePath, $site->getUrl($urlKey));
-	variable($key, $site);
+	if (count(domain::$all)) variable($key, $site);
 	return $site;
 }
 

@@ -7,6 +7,9 @@ class domain {
 			if (!disk_is_dir(ALLSITESROOT . $site)) continue;
 			disk_include_once(ALLSITESROOT . $site . '/domain.php');
 		}
+
+		if (!self::$current && !DEFINED('SITEPATH'))
+			self::$current = end(self::$all);
 	}
 
 	/**
@@ -48,6 +51,17 @@ class domain {
 	public string $liveBase;
 	public array $mainSites;
 	public array $subFolders;
+
+	public function prepareMainSite($site) {
+		$site = substr($site, strlen($this->folder));
+		if (!contains($site, '/')) return;
+		$bits = explode('/', $site);
+		$this->currentSubfolder = $bits[0];
+	}
+
+	public function cleanSubfolder() {
+		$this->currentSubfolder = '';
+	}
 
 	public function __construct(array $vars, array $mainSites, $subFolders = []) {
 		$this->folder = $vars['folder'];

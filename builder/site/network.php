@@ -26,7 +26,9 @@ function network_menu($renderFn = false) {
 		$these = [];
 		foreach ($wantsRender ? [] : $item->mainSites as $slug) {
 			if (!is_dir(ALLSITESROOT . $slug)) continue;
+			$item->prepareMainSite($slug);
 			$these[] = getSiteInfo($slug, $urlKey, $item);
+			$item->cleanSubfolder();
 		}
 
 		if (!$wantsRender)
@@ -37,7 +39,7 @@ function network_menu($renderFn = false) {
 			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
 			$item->currentSubfolder = $slug;
 			$items[humanize($slug)] = setupNetwork($fol . $slug, $item);
-			$item->currentSubfolder = '';
+			$item->cleanSubfolder();
 		}
 	}
 

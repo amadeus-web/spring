@@ -158,8 +158,7 @@ DEFINE('URLOFPREFIX', 'urlOf-');
 DEFINE('SITEROOT', 'root');
 DEFINE('SITESPRING', 'spring');
 DEFINE('SITEIMRAN', 'imran');
-DEFINE('NODEOPUS', 'opus');
-DEFINE('NODESMITHY', 'smithy');
+DEFINE('NODEINTRODUCTION', 'introduction');
 
 //site/node-menu.php
 DEFINE('VARNodesHaveFiles', 'nodes-have-files');
