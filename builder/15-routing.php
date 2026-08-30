@@ -62,7 +62,7 @@ function setup_cdn($fol = CDNAUTO, $local = true, $live = true) {
 	} else {
 		if ($live === false) return;
 		$url = getSiteInfo(domain::$current->mainSites[0], _getUrlKeySansPreview());
-		$cdn = 'https://cdn.' . $url;
+		$cdn = str_replace('//', '//cdn.', $url);
 		if ($live === true)
 			$cdn .= $fol;
 		else

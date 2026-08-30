@@ -26,7 +26,7 @@ function network_menu($renderFn = false) {
 		$these = [];
 		foreach ($wantsRender ? [] : $item->mainSites as $slug) {
 			if (!is_dir(ALLSITESROOT . $slug)) continue;
-			$these[] = getSiteInfo($slug, $urlKey);
+			$these[] = getSiteInfo($slug, $urlKey, $item);
 		}
 
 		if (!$wantsRender)
@@ -35,7 +35,9 @@ function network_menu($renderFn = false) {
 
 		foreach ($item->subFolders as $slug) {
 			if (!is_dir(ALLSITESROOT . $fol . $slug)) continue;
-			$items[humanize($slug)] = setupNetwork($fol . $slug, $slug, $item);
+			$item->currentSubfolder = $slug;
+			$items[humanize($slug)] = setupNetwork($fol . $slug, $item);
+			$item->currentSubfolder = '';
 		}
 	}
 
@@ -45,7 +47,7 @@ function network_menu($renderFn = false) {
 		twoLevelMenu($items, NETWORKABBR);
 }
 
-function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, domain | bool $site = false) {
+function setupNetwork(string | bool $where = false, domain $domain = null) {
 	$networkSites = [];
 
 	$networkName = variable(VARNetwork);
@@ -54,45 +56,26 @@ function setupNetwork(sheet | null | string $sheet = null, $subfolder = false, d
 	$urlKey = _getUrlKeySansPreview();
 	$returnArray = false;
 
-	if (is_string($sheet) && $sheet != null) {
-		$fols = _skipNodeFiles(scandir(ALLSITESROOT . $sheet), ONLYFOLDERS);
-		foreach ($fols as $fol) $items[] = $sheet . '/' . $fol;
-		$returnArray = true;
-	} else if ($sheet) {
-		$items = $sheet->rows;
+	if ($where) {
+		$fols = _skipNodeFiles(scandir(ALLSITESROOT . $where), ONLYFOLDERS);
+		foreach ($fols as $fol) $items[] = $where . '/' . $fol;
 		$returnArray = true;
 	} else {
-		if (disk_file_exists($txt = NETWORKDEFINEDAT . $networkName . '.txt')) {
-			$items = textToList(disk_file_get_contents($txt));
-		} else {
-			$sheet = getSheet(NETWORKDEFINEDAT . $networkName . '.tsv', false);
-			$items = $sheet->rows;
-		}
+		if (!disk_file_exists($txt = NETWORKDEFINEDAT . $networkName . '.txt'))
+			return;
+
+		$items = textToList(disk_file_get_contents($txt));
 	}
 
-	$hasNode = !is_string($sheet) && isset($sheet) && $sheet->hasColumn('node');
-	foreach ($items as $key => $row) {
-		$plain = is_string($row);
-		$key = $plain ? $row : $sheet->getValue($row, 'key');
-		if (startsWith($key, '~')) {
-			$networkSites[] = $key;
+	foreach ($items as $item) {
+		if (startsWith($item, '~')) {
+			$networkSites[] = $item;
 			continue;
 		}
 
-		$item = getSiteInfo($plain ? $row : $sheet->getValue($row, 'path'), $urlKey);
+		$item = getSiteInfo($item, $urlKey, $domain);
 
 		if ($item === false) continue;
-
-		$bits = explode('/', $key);
-		$leafKey = array_pop($bits);
-		if ($subfolder && $site)
-			setWildcardUrl($item, $subfolder, $site, $leafKey);
-
-		if ($hasNode && $node = $sheet->getValue($row, 'node')) {
-			$item[$urlKey] .= $node . '/';
-			$item['key'] .= '/' . $key;
-			$item['name'] = humanize($node) . ' &larr; ' . $item['name'];
-		}
 
 		$networkSites[] = $item;
 	}

@@ -1,4 +1,5 @@
 <?php
+DEFINE('SKIPBOOTSTRAP', true);
 include_once __DIR__ . '/../entry.php';
 domain::includeAll();
 
@@ -28,11 +29,7 @@ DEFINE('ALLSITEPATH', $rootPath . $siteInfo->folder . domain::$currentName);
 define('SITEINFO', $siteInfo);
 define('SITEPATH', ALLSITEPATH);
 
-include_once __DIR__ . '/../builder/1-entry.php';
-
-function enhanceAllSite(&$vars, domain $info) {
-	if (!$info->currentSubfolder) return;
-	setWildcardUrl($vars, $info->currentSubfolder, $info);
-}
+if (DEFINED('SKIPBOOTSTRAP'))
+	before_bootstrap();
 
 runFrameworkFile('site/begin');

@@ -29,10 +29,66 @@ function getSpecialUrl($name) {
 	else throw new Error('Unknown SpecialUrl: ' . $name);
 }
 
-function getSiteInfo($relativePath, $urlKey = false) {
+class site {
+	/**
+	 * @return site Cast the site
+	 */
+	static function cast($item) {
+		return $item;
+	}
+
+	static function getWildcardUrl(domain $domain, string $folder) {
+		$base = is_local() ? $domain->localBase : $domain->liveBase;
+		return replaceSiteInfo($base, '--unused--', $domain->currentSubfolder) . $folder . '/';
+	}
+
+	static function getFolder($relativePath) {
+		$bits = explode('/', $relativePath);
+		return array_pop($bits);
+	}
+
+	const local = 'local-url';
+	const live = 'live-url';
+
+	public string $key;
+	public string $name;
+	public string $siteName;
+	public string $byline;
+
+	public string $localUrl;
+	public string $liveUrl;
+	public string $wildcardUrl = '';
+
+	public string $path;
+	public string $folder;
+
+	public function __construct(sheet $site, $relativePath) {
+		$this->key = $site->getValue($site->firstOfGroup(VARSafeName), 'value');
+		$this->name = $site->getValue($site->firstOfGroup(VARIconName), 'value');
+
+		$this->siteName = $site->getValue($site->firstOfGroup('name'), 'value');
+		$this->byline = $site->getValue($site->firstOfGroup(VARByline), 'value');
+
+		$this->localUrl = $site->getValue($site->firstOfGroup('local-url'), 'value');
+		$this->liveUrl = $site->getValue($site->firstOfGroup('live-url'), 'value');
+		$this->folder = self::getFolder($this->path = $relativePath);
+	}
+
+	function getUrl(string $key, $wildcard = false) {
+		if ($wildcard && $this->wildcardUrl) return $this->wildcardUrl;
+		return $key == self::local ? $this->localUrl : $this->liveUrl;
+	}
+
+	function setWildcardUrl(domain $domain) {
+		if (!$domain->currentSubfolder) return;
+		$this->wildcardUrl = self::getWildcardUrl($domain, $this->folder);
+	}
+}
+
+function getSiteInfo($relativePath, $urlKey = false, domain $domain = null) : site | bool {
 	$key = 'siteInfo_' . $relativePath;
 	$result = variable($key);
-	if ($result) return $result; //showDebugging(218, $result, PleaseDie);
+	if ($result) return $result;
 
 	$file = ALLSITESROOT . $relativePath . '/data/site.tsv';
 	//need the check again as it may be called from subsites/
@@ -41,40 +97,20 @@ function getSiteInfo($relativePath, $urlKey = false) {
 		return false;
 	}
 
-	$site = getSheet($file, 'key');
+	$site = new site(getSheet($file, 'key'), $relativePath);
 
-	$showInConfig = $site->firstOfGroup(DOMAINKEY, false, false);
-	$showIn = $showInConfig ? $site->getValue($showInConfig, 'value') : 'misc';
+	if ($domain) $site->setWildcardUrl($domain);
 
-	$result = [
-		'key' => $site->getValue($site->firstOfGroup(VARSafeName), 'value'),
-		'name' => $site->getValue($site->firstOfGroup(VARIconName), 'value'),
-
-		'siteName' => $site->getValue($site->firstOfGroup('name'), 'value'),
-		VARByline => $site->getValue($site->firstOfGroup(VARByline), 'value'),
-
-		'local-url' => $site->getValue($site->firstOfGroup('local-url'), 'value'),
-		'live-url' => $site->getValue($site->firstOfGroup('live-url'), 'value'),
-
-		'path' => $relativePath,
-		'category' => $showIn, //TODO: HI: cleanup and tags / articles
-	];
-
-	if ($urlKey) addNetworkUrl($relativePath, $result[$urlKey]);
-	variable($key, $result);
-	return $result;
+	if ($urlKey) addNetworkUrl($relativePath, $site->getUrl($urlKey));
+	variable($key, $site);
+	return $site;
 }
 
 function getUrlFrom($relativePath, $urlKey = false) {
 	if (!$urlKey) $urlKey = _getUrlKeySansPreview();
 	$result = getSiteInfo($relativePath);
 	if (!$result) return '#missing-' . $relativePath;
-	return $result[$urlKey];
-}
-
-function setWildcardUrl(&$vars, $subfolder, domain $info) {
-	$base = is_local() ? $info->localBase : $info->liveBase;
-	$vars[VARWildcardUrl] = replaceSiteInfo($base, '--unused--', $subfolder) . domain::$currentName . '/';
+	return $result->getUrl($urlKey);
 }
 
 function replaceSiteInfo($input, $name, $subfolder) {

@@ -104,6 +104,7 @@ class features {
 	const share = 'share';
 	const underConstruction = 'under-construction';
 	const tables = 'tables';
+	const explore = 'explore';
 
 	const shareQS = '?share=1&content=1';
 
@@ -147,7 +148,7 @@ function before_bootstrap() {
 	runModule('wordpress');
 }
 
-if (!DEFINED('AMADEUSPRODUCT'))
+if (!DEFINED('SKIPBOOTSTRAP'))
 	before_bootstrap();
 
 //Now this only sets up the node and page parameters - rest moved to before_bootstrap()

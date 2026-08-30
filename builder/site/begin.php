@@ -12,8 +12,8 @@ foreach ($sheet->rows as $row) {
 	$siteVars[$key] = $row[$cols['value']];
 }
 
-if (function_exists('enhanceAllSite'))
-	enhanceAllSite($siteVars, SITEINFO);
+if (DEFINED('SITEINFO'))
+	variable(VARWildcardUrl, site::getWildcardUrl(SITEINFO, site::getFolder(SITEPATH)));
 
 variables([
 	'site-vars' => $siteVars,

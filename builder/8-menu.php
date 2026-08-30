@@ -402,9 +402,10 @@ function flatMenu($items, $name) {
 			continue;
 		}
 
-		$name = $item['name'];
+		$site = site::cast($item);
+		$name = $site->name;
 		if ($wrapTextInADiv) $name = '<div>' . $name . $topLevelAngle . '</div>';
-		echo '			<li class="' . $itemClass . ' ' . $subMenuClass . '">' . getLink($name, $item[$urlKey], $anchorClass, true) . '</li>' . NEWLINE;
+		echo '			<li class="' . $itemClass . ' ' . $subMenuClass . '">' . getLink($name, $site->getUrl($urlKey), $anchorClass, true) . '</li>' . NEWLINE;
 	}
 
 	echo '	</ul>' . NEWLINES2;
@@ -435,9 +436,10 @@ function twoLevelMenu($items, $topName) {
 		echo '	<ul class="' . $ulClass . '">' . NEWLINE;
 
 		foreach ($subItems as $item) {
-			$subName = $item['name'];
+			$site = site::cast($item);
+			$subName = $site->name;
 			if ($wrapTextInADiv) $subName = '<div>' . $subName . $topLevelAngle . '</div>';
-			echo '			<li class="' . $itemClass . ' ' . $subMenuClass . '">' . getLink($subName, $item[$urlKey], $anchorClass, true) . '</li>' . NEWLINE;
+			echo '			<li class="' . $itemClass . ' ' . $subMenuClass . '">' . getLink($subName, $site->getUrl($urlKey), $anchorClass, true) . '</li>' . NEWLINE;
 		}
 
 		echo '	</ul>' . NEWLINES2;

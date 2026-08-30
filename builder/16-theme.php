@@ -344,10 +344,15 @@ function siteWidgets() {
 
 		$urlKey = _getUrlKeySansPreview();
 		$brYes = _useAltFooterDesign() ? NEWLINE : BRNL;
-		foreach ($sites as $ix => $site)
-			$op[] = is_string($site) ? ($ix > 0 ? BRNL : '') . '<u class="m-1 ms-3">' . substr($site, 1) . '</u>'
-				: getLink('<img src="' . valueIfSet($site, VARWildcardUrl, $site[$urlKey]) . $site['key'] . '-icon.png" height="28" class="me-2" /> ' . $site['name'], $site[$urlKey],
+		foreach ($sites as $ix => $item) {
+			if (is_string($item)) {
+				$op[] =  ($ix > 0 ? BRNL : '') . '<u class="m-1 ms-3">' . substr($item, 1) . '</u>';
+				continue;
+			}
+			$site = site::cast($item);
+			$op[] = getLink('<img src="' . $site->getUrl($urlKey, true) . $site->key . '-icon.png" height="28" class="me-2" /> ' . $site->siteName, $site->getUrl($urlKey),
 					'btn bg-light btn-outline-success m-1', true) . $brYes;
+		}
 		$op[] = '</div>'; $op[] = '';
 	}
 
