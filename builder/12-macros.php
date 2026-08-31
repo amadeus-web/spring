@@ -280,6 +280,8 @@ function processSpacerShortcode($html) {
 		'[spacer]' => cbCloseAndOpen('spacer container') . SPACERSTART,
 		'[/spacer][plaincontainer]' => NEWLINE . SPACEREND . '</div><div class="container">',
 		'[/spacer]' => NEWLINE . SPACEREND,
+		'[spacerpara]' => '</h1></div><p class="text-center">',
+		'[spacerparaend]' => '</p>' . NEWLINE,
 	]);
 }
 

@@ -169,8 +169,8 @@ function renderSheetAsDeck($deck, $link) {
 	_renderDeck($op);
 }
 
-function __parseDeck($deck) {
-	$hrWith = NEWLINE . '</section><section>' . NEWLINE;
+function __parseDeck($deck, $expanded = false) {
+	$hrWith = $expanded ? cbCloseAndOpen('container') : NEWLINE . '</section><section>' . NEWLINE;
 	$deck = renderMarkdown($deck, [ 'echo' => false, VARStripParagraphTag => true, replacer::plainReplaces => ['---' => $hrWith]]);
 	return $deck;
 }
@@ -208,7 +208,7 @@ function _renderDeck($deck, $goesTo = false, $skipTitle = false) {
 	sectionEnd();
 
 	if ($expanded) {
-		$deck = __parseDeck($deck);
+		$deck = __parseDeck($deck, $expanded);
 		$deck = cbWrapAndReplaceHr($deck, 'container');
 		echo $deck;
 	} else {

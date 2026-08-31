@@ -3,6 +3,7 @@ $nl = NEWLINE;
 DEFINE('NEWLINES2', $nl . $nl);
 DEFINE('NEWLINES3', $nl . $nl . $nl);
 DEFINE('HRTAG', $hr = '<hr>');
+DEFINE('USETRUEHR', 'true-hr');
 
 DEFINE('NBSP', ' &nbsp; ');
 DEFINE('PIPEWS', ' | '); ////whitespace

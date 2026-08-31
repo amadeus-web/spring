@@ -50,8 +50,8 @@ function wants_only_content($ctaCheck = true) {
 DEFINE('CDNAUTO', 'auto');
 function setup_cdn($fol = CDNAUTO, $local = true, $live = true) {
 	if (!domain::$current) showDebugging('domain::$current not set', [$fol], PleaseDie, IncludeTrace);
-	define('ROOTCDNPATH', ALLSITESROOT . '_cdn/');
 	$key = domain::$current->key;
+	define('ROOTCDNPATH', ALLSITESROOT . $key . '/_cdn/');
 
 	if ($fol == CDNAUTO)
 		$fol = str_replace('\\', '/', substr(SITEPATH, strlen(ALLSITESROOT . $key) + 1)) . '/';

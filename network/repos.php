@@ -15,7 +15,7 @@ if (isset($variables) && isset($variables['items'])) {
 		$gitLink = getLink('git', str_replace('.git', '', $gitUrl), 'btn btn-outline-info me-2', true);
 		$location = $values['cloneAt'] . ($at = $sheet->getValue($item, 'at'));
 
-		$exists = disk_is_dir(ALLSITESROOT . $location);
+		$exists = disk_is_dir((defined('REPOSPATH') ? REPOSPATH : ALLSITESROOT) . $location);
 		$actions = '';
 		//https://github.com/amadeus-web-archives/admin/blob/main/repositories/manage.php#L41
 		if ($isMobile && !$exists) {

@@ -1,6 +1,5 @@
 <?php
 $sheetName = nodeIs(SITEHOME) ? 'articles' : relatedDataFile('articles');
-
 if (!sheetExists($sheetName)) return h2('No articles found.', 'text-danger', true) . '<p>Please add articles in the "' . $sheetName . '" file.</p>';
 
 $sheet = getSheet($sheetName, false);
@@ -8,6 +7,8 @@ $sheet = getSheet($sheetName, false);
 $op = ['</section><div class="container"><div class="portfolio row grid-container articles-codesnippet">' . NEWLINE];
 $format = '<section class="portfolio-item col-lg-4 col-md-6 col-xs-12 mb-4 %moreClasses%"><div class="content-box">%title%
 <br />%excerpt%</div></section>';
+
+variable(USETRUEHR, true);
 
 foreach ($sheet->rows as $item) {
 	$site = $sheet->hasColumn('site') ? $sheet->getValue($item, 'site') : '';
@@ -41,6 +42,8 @@ foreach ($sheet->rows as $item) {
 
 	$op[] = $itm;
 }
+
+clearVariable(USETRUEHR);
 
 $op[] = '<section></div></div>' . NEWLINES2;
 

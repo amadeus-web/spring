@@ -82,7 +82,9 @@ function cbWrapAndReplaceHr($raw, $class = '') {
 
 	$closeAndOpen = ($end = contentBox('end', '', true)) . ($start = contentBox('', $class, true));
 	//TODO: asap! if (substr_count($raw, HRTAG) > 3) runFeature('page-menu');
-	return $start . str_replace(HRTAG, $closeAndOpen, $raw) . $end;
+	if (!variable(USETRUEHR))
+		$raw = str_replace(HRTAG, $closeAndOpen, $raw);
+	return $start . $raw . $end;
 }
 
 function cbCloseAndOpen($class = '') {
