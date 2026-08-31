@@ -99,7 +99,7 @@ function _renderMenu($home, $folder, $where) {
 	};
 
 	if (hasPageParameter('generate-index')) {
-		addScript(features::engage, COREASSETS);
+		addScript(features::engage, assetManager::core);
 		echo '<textarea class="autofit">' . NEWLINE;
 		echo '<!--use-blocks-->' . NEWLINES2;
 		foreach ($sectionItems as $item) {

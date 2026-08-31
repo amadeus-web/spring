@@ -1,4 +1,7 @@
 <?php
+if (hasVariable(USETRUEHR))
+	showDebugging('nested articles call', nodeValue(), PleaseDie, IncludeTrace);
+
 $sheetName = nodeIs(SITEHOME) ? 'articles' : relatedDataFile('articles');
 if (!sheetExists($sheetName)) return h2('No articles found.', 'text-danger', true) . '<p>Please add articles in the "' . $sheetName . '" file.</p>';
 

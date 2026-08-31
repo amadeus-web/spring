@@ -298,5 +298,5 @@ function _includeDatatables($rg) {
 }
 
 function _includeTableAssets() {
-	addScript('tables', COREASSETS);
+	addScript('tables', assetManager::core);
 }

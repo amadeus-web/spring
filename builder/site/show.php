@@ -8,7 +8,7 @@ setSubTheme(VARSubthemeGo);
 variables([
 	VARMediakit => '?palette=1',
 	VARNode => SITEHOME,
-	'name' => substr(NETWORKNAME . SITELISTNAME, 1),
+	'name' => 'TODO (show.php)',
 	VARFooterMessage => 'Proud Member of "' . NETWORKABBR . VARQUOTE,
 
 	VARChatraID => VARUseAmadeusWeb,
@@ -18,12 +18,15 @@ variables([
 	VARWhatsapp => $ph1,
 	VARAddress => VARSystemAddress,
 	VARNetwork => 'Webring',
+	VARDAWNMenu => true,
 ]);
 
 add_body_class('showing-sites');
-addStyle('v9-spring', COREASSETS);
-addStyle('v9-features', COREASSETS);
+addStyle('v9-spring', assetManager::core);
+addStyle('v9-features', assetManager::core);
+addStyle('typography', assetManager::core);
 
+//TODO: HI: this file is never used, refactor into feed.
 DEFINE('SITEPATH', SHOWSITESAT);
 runThemePart('header');
 runFrameworkFile('site/listing');

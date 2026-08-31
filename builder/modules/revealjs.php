@@ -7,11 +7,11 @@
 		<title><?php echo title() . ' [AW DECK]';?></title>
 		<link href="<?php echo fileUrl(variable(VARSafeName)); ?>-icon.png" rel="icon">
 
-		<?php cssTag(assetUrl('3p/reset.css', COREASSETS));?>
-		<?php cssTag(assetUrl('3p/reveal.css', COREASSETS));?>
+		<?php cssTag(assetUrl('3p/reset.css', assetManager::core));?>
+		<?php cssTag(assetUrl('3p/reveal.css', assetManager::core));?>
 
-		<!-- Theme used for syntax highlighted code -->
-		<?php cssTag(assetUrl('presentation.css', COREASSETS)); ?>
+		<?php cssTag(assetUrl('presentation.css', assetManager::core)); ?>
+		<?php cssTag(assetUrl('typography.css', assetManager::core)); ?>
 
 <?php main::analytics(); ?>
 	</head>
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		<?php scriptTag(assetUrl('3p/reveal.js', COREASSETS)); ?>
+		<?php scriptTag(assetUrl('3p/reveal.js', assetManager::core)); ?>
 		<?php if (hasVariable('slide-style')) cssTag(variable('slide-style')); ?>
 		<?php echo hasPageparameter('print') ? NEWLINE . variableOr('print-css', '') . NEWLINE : '' ?>
 		<script>

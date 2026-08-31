@@ -1,6 +1,6 @@
 <?php
-addStyle(features::engage, COREASSETS);
-addScript(features::engage, COREASSETS);
+addStyle(features::engage, assetManager::core);
+addScript(features::engage, assetManager::core);
 
 //TODO: Make a toggle-more when the md contains <!--more-->
 function renderEngage($name, $raw, $echo = true, $meta = [], $settings = []) {

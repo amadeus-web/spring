@@ -5,10 +5,11 @@ function sectionBaseOrSitePath($isThisContentQM = false) {
 }
 
 function before_render() {
-	addStyle('v9-spring', COREASSETS);
-	addStyle('v9-features', COREASSETS);
+	addStyle('v9-spring', assetManager::core);
+	addStyle('v9-features', assetManager::core);
+	addStyle('typography', assetManager::core);
 	if (!getQueryParameter('content'))
-		addScript('v9-content', COREASSETS);
+		addScript('v9-content', assetManager::core);
 
 	if (function_exists('beforeSectionSet') && beforeSectionSet()) return;
 

@@ -214,7 +214,7 @@ function _renderDeck($deck, $goesTo = false, $skipTitle = false) {
 	} else {
 		echo sprintf('<section class="deck-container container">'
 			. '<iframe src="%s&iframe=1"></iframe></section>', $embedUrl);
-		addScript('presentation-toolbar', COREASSETS);
+		addScript('presentation-toolbar', assetManager::core);
 	}
 }
 

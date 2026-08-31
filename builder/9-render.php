@@ -306,10 +306,12 @@ function _renderImplementation($fileOrRaw, $settings) {
 	if (!$noReplaces && isset($settings[VARWrapInSection]))
 		$output = TAGSECTION . NEWLINE . $output . NEWLINE . TAGSECTIONEND . NEWLINES2;
 
-	if (valueIfSet($settings, VARUseContentBox, BOOLNo))
+	if (variable(USETRUEHR))
+		$output = str_replace(HRTAG, '<hr class="keep" />', $output);
+	else if (valueIfSet($settings, VARUseContentBox, BOOLNo))
 		$output = cbWrapAndReplaceHr($output);
 	else if (!$engage->wants_engage)
-		$output = str_replace(HRTAG, variable(USETRUEHR) ? '<hr class="keep" />' : cbCloseAndOpen('container'), $output);
+		$output = str_replace(HRTAG, cbCloseAndOpen('container'), $output);
 
 	if (!$noReplaces && isset($settings['heading'])) $output = variableOr('custom-heading', h2($settings['heading'], 'amadeus-heading amadeus-icon', BOOLYes)) . NEWLINES2 . $output;
 

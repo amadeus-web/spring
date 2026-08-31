@@ -275,6 +275,14 @@ function printSpacer($heading) {
 }
 
 function processSpacerShortcode($html) {
+	if (variable(USETRUEHR))
+		return replaceItems($html, [
+			'[spacer]' => HRTAG . '<h1 class="h4">',
+			'[/spacer]' => '</h1>',
+			'[spacerpara]' => '</h1><p class="text-center">',
+			'[spacerparaend]' => '</p>' . NEWLINE,
+		]);
+
 	return replaceItems($html, [
 		'[spacer][no-content-box]' => SPACERSTART,
 		'[spacer]' => cbCloseAndOpen('spacer container') . SPACERSTART,
