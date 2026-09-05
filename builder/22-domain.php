@@ -23,8 +23,9 @@ class domain {
 	static $current;
 
 	static function add(string $key, string $folder, bool $skipIfNotMatching, domain $item) {
-		$match = DEFINED('SITEPATH') && contains(SITEPATH, $key); //doesnt handle substring collision
-		if ($skipIfNotMatching && !$match) return;
+		$path = DEFINED('ALLSITENAME') ? ALLSITENAME : (DEFINED('SITEPATH') ? SITEPATH : false);
+		$match = $path && contains($path, $key); //doesnt handle substring collision
+		if ($skipIfNotMatching && !$match && !DEFINED('ALLSITENAME')) return;
 		if ($match && !DEFINED('NETWORKPATH')) {
 			self::$current = $item;
 			DEFINE('NETWORKPATH', $folder);
