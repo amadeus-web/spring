@@ -55,6 +55,7 @@ function setup_cdn($fol = CDNAUTO, $local = true, $live = true) {
 
 	if ($fol == CDNAUTO)
 		$fol = str_replace('\\', '/', substr(SITEPATH, strlen(ALLSITESROOT . $key) + 1)) . '/';
+
 	if (is_local()) {
 		if ($local === false) return;
 		$cdn = 'http://localhost/' . $key . '/_cdn/';

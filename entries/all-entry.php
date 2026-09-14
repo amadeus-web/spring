@@ -4,7 +4,7 @@ include_once __DIR__ . '/../entry.php';
 domain::includeAll();
 
 $name = isset($_GET['name']) ? $_GET['name'] : explode('.', $_SERVER['HTTP_HOST'])[0];
-if ($name == 'localhost') $name = 'imran';
+if ($name == 'localhost') $name = ALLSITENAME == 'aztras' ? 'realtors' : 'imran';
 
 $rootPath = realpath(__DIR__ . '/../../') . '/';
 $siteInfo = domain::$all[ALLSITENAME];
@@ -21,7 +21,7 @@ if (count($siteInfo->subFolders)) {
 			break;
 		}
 	}
-	if (!$found) die($name . ' not found in: ' . $fol . ' - checked: ' . implode(' / ', $siteInfo->currentSubfolder));
+	if (!$found) die($name . ' not found in: ' . $fol . ' - checked: ' . $siteInfo->currentSubfolder);
 }
 
 DEFINE('ALLSITEPATH', $rootPath . $siteInfo->folder . domain::$currentName);
