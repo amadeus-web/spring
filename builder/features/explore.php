@@ -2,7 +2,7 @@
 function showSite($allItems) {
 	echo tagUX::tagStart(tagUX::Div, cssUX::CenterContainer);
 	$urlKey = _getUrlKeySansPreview();
-	$slim = getQueryParameter('slim');
+	$slim = variableOr('slim', getQueryParameter('slim'));
 	foreach ($allItems as $menu => $items) {
 		if ($items == MENUSEPARATOR) continue;
 		if ($slim) tagUX::contentBox(urlize($menu));

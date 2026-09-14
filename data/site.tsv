@@ -1,10 +1,10 @@
 #key	value
-name	AmadeusWeb Spring v9.5
+name	AmadeusWeb Spring v9.8
 byline	Spiritualized Simplified Tech
 year	2019
 
 |labels and messages
-iconName	AW Spring v9.5
+iconName	AW Spring v9.8
 siteMenuName	AmadeusWeb Spring
 welcome-message	This is the "Proprietary" Web Builder - with Pull Plug Rights held by [Imran](%urlOf-imran%BTNSUCCESS) of [DAWN](%urlOf-spring%/dawn/BTNINFO).
 footer-message	Fostering transparency and accountability by making content / interactions public record.
@@ -17,4 +17,4 @@ fonts	cursive=Eagle+Lake&menu=Quintessential&menu-size=1.3rem
 |technical
 sections	smithy, network, whois
 local-url	http://localhost/spring/
-live-url	https://spring.joyfulearth.org/
+live-url	https://spring.amadeusweb.in/

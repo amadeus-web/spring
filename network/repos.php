@@ -15,7 +15,7 @@ if (isset($variables) && isset($variables['items'])) {
 		$gitLink = getLink('git', str_replace('.git', '', $gitUrl), 'btn btn-outline-info me-2', true);
 		$location = $values['cloneAt'] . ($at = $sheet->getValue($item, 'at'));
 
-		$exists = disk_is_dir((defined('REPOSPATH') ? REPOSPATH : ALLSITESROOT) . $location);
+		$exists = disk_is_dir(ALLSITESROOT . $location);
 		$actions = '';
 		//https://github.com/amadeus-web-archives/admin/blob/main/repositories/manage.php#L41
 		if ($isMobile && !$exists) {
@@ -39,7 +39,7 @@ if (isset($variables) && isset($variables['items'])) {
 	if (is_local())
 		echo getLink('Check Clone Urls', './?check=1', 'btn btn-primary');
 	if ($check) {
-		$files = _skipNodeFiles(scandir(__DIR__), 'md, php');
+		$files = _skipNodeFiles(scandir(defined('REPOSPATH') ? REPOSPATH : __DIR__), 'md, php');
 		foreach ($files as $page) {
 			echo tagUX::h2Plain($page, 'after-content mt-2');
 			$sheet = getSheet(__DIR__ . '/' . $page . '.tsv', false);
@@ -91,5 +91,6 @@ function _getGuiLink($site, $action, $classSuffix, $optional = '') {
 	return getLink($action, $script . $qs, 'btn btn-' . $classSuffix, true);
 }
 
-variables(['dir_skip_node' => true, 'dir_pop_breadcrumbs' => true]);
+variables(['dir_skip_node' => false, 'dir_pop_breadcrumbs' => true]);
+if (defined('REPOSPATH')) variable('directory_of', substr(REPOSPATH, strlen(SITEPATH)));
 features::ensureDirectory();
