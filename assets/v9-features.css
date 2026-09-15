@@ -1,23 +1,23 @@
 #wrapper { z-index: 1000; } /* so poetry popup shows on top */
 
 /* AI */
-.has-gemini-ai .prompt, .standout {
+.has-ai .prompt, .standout {
 	background-color: var(--cnvs-themecolor, #bbb2f2)!important;
 	color: #fff;
 	font-size: 120% !important;
 }
 
-.has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type { background-color: #ffffea; }
-.has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type h1 { font-size: 16px; margin-bottom: 5px; }
-.has-gemini-ai .content-wrap section:first-of-type .content-box:first-of-type a:not(.send-icon)::before { content: '** Ignore this link --> '; }
+.has-ai .content-wrap section:first-of-type .content-box:first-of-type { background-color: #ffffea; }
+.has-ai .content-wrap section:first-of-type .content-box:first-of-type h1 { font-size: 16px; margin-bottom: 5px; }
+.has-ai .content-wrap section:first-of-type .content-box:first-of-type a:not(.send-icon)::before { content: '** Ignore this link --> '; }
 
-.has-gemini-ai .geminiv2 blockquote:first-of-type { font-size: 85%; padding: 6px; user-select: none; }
-.has-gemini-ai .geminiv2 blockquote:first-of-type::before { content: 'When: '; display: inline; }
-.has-gemini-ai .prompt.geminiv2 blockquote:first-of-type { background-color: #7fc1ff; }
-.has-gemini-ai .response.geminiv2 blockquote:first-of-type { background-color: aliceblue; }
+.has-ai .aiv2 blockquote:first-of-type { font-size: 85%; padding: 6px; user-select: none; }
+.has-ai .aiv2 blockquote:first-of-type::before { content: 'When: '; display: inline; }
+.has-ai .prompt.aiv2 blockquote:first-of-type { background-color: #7fc1ff; }
+.has-ai .response.aiv2 blockquote:first-of-type { background-color: aliceblue; }
 
-section.has-gemini-ai h1 { display: none; }
-.articles-codesnippet > *, section.has-gemini-ai h2 { font-size: 14px; }
+section.has-ai h1 { display: none; }
+.articles-codesnippet > *, section.has-ai h2 { font-size: 14px; }
 .articles-codesnippet blockquote { font-size: 16px; }
 .articles div.large-list, .articles .large-list li { font-size: 100%!important; }
 

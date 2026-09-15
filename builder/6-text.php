@@ -10,7 +10,8 @@ DEFINE('PIPEWS', ' | '); ////whitespace
 
 DEFINE('BREADCRUMBSEPARATOR', ' <large>&#8680;</large> ');
 
-function urlize($txt) {
+function urlize($txt, $special = false) {
+	if ($special) $txt = replaceItems($txt, ["," => '', '?' => '', ' - ' => '--']);
 	return replaceItems(strtolower($txt), ["'" => '', ' ' => '-', '&hellip;' => '__', '&' => 'and']);
 }
 

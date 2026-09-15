@@ -298,8 +298,8 @@ function processPromptShortcode($html) {
 	return replaceItems($html, [
 		'[prompt]' => cbCloseAndOpen('prompt'),
 		'[/prompt]' => cbCloseAndOpen('response'),
-		'[promptv2]' => cbCloseAndOpen('prompt geminiv2'),
-		'[/promptv2]' => cbCloseAndOpen('response geminiv2'),
+		'[promptv2]' => cbCloseAndOpen('prompt aiv2'),
+		'[/promptv2]' => cbCloseAndOpen('response aiv2'),
 	]);
 }
 

@@ -35,7 +35,7 @@ foreach ($sheet->rows as $item) {
 		. $sheet->getValue($item, 'extension');
 
 	$title = $sheet->getValue($item, 'title');
-	$moreClasses = peekAtMainFile($file, true);
+	$moreClasses = aihelper::peekAtMainFile($file, true);
 
 	$itm = replaceItems($format, [
 		'moreClasses' => $moreClasses,

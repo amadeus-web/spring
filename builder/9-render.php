@@ -277,12 +277,12 @@ function _renderImplementation($fileOrRaw, $settings) {
 			$output = renderEngage(getPageName(), $raw . $inProgress, BOOLNo, $meta);
 			variable(VARNoContentBoxes, $no);
 		} else {
-			$ai = contains($raw, FROM_GEMINI_AI);
-			if ($ai) $raw = processAI($raw, 'gemini');
+			$ai = new aihelper($raw);
+			if ($ai->hasLlm()) $raw = $ai->preProcess($raw);
 
 			$output = !$autop && ($md || $endsWithMd || $treatAsMarkdown) ? markdown($raw) : wpautop($raw);
 
-			if ($ai || contains($raw, HAS_GEMINI_AI)) $output = adjustOutputOfAI($output, 'gemini');
+			if ($ai->hasLlm()) $output = $ai->adjustOutput($output);
 		}
 	}
 

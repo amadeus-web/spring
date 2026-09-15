@@ -152,7 +152,7 @@ function afterSectionSet() {
 	$file = variable('file');
 
 	if ($file && endsWith($file, '.md'))
-		peekAtMainFile($file);
+		aihelper::peekAtMainFile($file);
 
 	$leafFolder = $file ? dirname($file) . '/' : variable('folderGoesUpto');
 	variable('leafFolder', $leafFolder);

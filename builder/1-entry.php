@@ -95,6 +95,9 @@ runFrameworkFile('21-site');
 //New in v9.7
 runFrameworkFile('22-domain');
 
+//New in v9.8
+runFrameworkFile('23-assistant-and-ai');
+
 class features {
 	const blurbs = 'blurbs';
 	const directory = 'directory';
